@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Shane "The Hunt" Career Tracker</title>
+<style>
+  :root{
+    --slate:#1e293b; --slate2:#334155; --bg:#f1f5f9; --card:#ffffff;
+    --lane1:#2563eb; --lane2:#16a34a; --lane3:#ea580c;
+    --line:#e2e8f0; --muted:#64748b; --accent:#0f766e;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--slate);line-height:1.5;}
+  header.top{background:var(--slate);color:#fff;padding:22px 28px;}
+  header.top h1{margin:0;font-size:24px;letter-spacing:.3px;}
+  header.top p{margin:6px 0 0;color:#cbd5e1;font-size:14px;}
+  nav.tabs{display:flex;flex-wrap:wrap;gap:4px;background:var(--slate2);padding:0 14px;position:sticky;top:0;z-index:20;}
+  nav.tabs button{background:transparent;border:none;color:#cbd5e1;padding:14px 16px;font-size:14px;
+    cursor:pointer;border-bottom:3px solid transparent;font-weight:600;}
+  nav.tabs button:hover{color:#fff;}
+  nav.tabs button.active{color:#fff;border-bottom-color:var(--accent);background:rgba(255,255,255,.06);}
+  main{max-width:1180px;margin:0 auto;padding:26px 20px 80px;}
+  section.tab{display:none;animation:fade .25s ease;}
+  section.tab.active{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+  h2.section-title{font-size:22px;margin:0 0 4px;}
+  p.sub{color:var(--muted);margin:0 0 22px;font-size:14px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-bottom:18px;
+    box-shadow:0 1px 2px rgba(0,0,0,.04);}
+  .card h3{margin:0 0 10px;font-size:17px;}
+  .card h4{margin:18px 0 6px;font-size:15px;color:var(--slate2);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr;}}
+  .badge{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:700;color:#fff;letter-spacing:.3px;}
+  .b1{background:var(--lane1);}.b2{background:var(--lane2);}.b3{background:var(--lane3);}
+  .pill{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600;background:#e2e8f0;color:var(--slate2);}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  .scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;}
+  th{background:var(--slate);color:#fff;text-align:left;padding:10px 10px;font-weight:600;position:sticky;top:48px;}
+  td{padding:9px 10px;border-top:1px solid var(--line);vertical-align:top;}
+  tbody tr:nth-child(even){background:#f8fafc;}
+  td.small,th.small{font-size:12px;}
+  input,select,textarea{font-family:inherit;font-size:13px;border:1px solid var(--line);border-radius:6px;padding:6px 7px;width:100%;background:#fff;}
+  textarea{resize:vertical;min-height:34px;}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:0;border-color:var(--accent);}
+  .btn{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer;}
+  .btn:hover{filter:brightness(1.08);}
+  .btn.ghost{background:#fff;color:var(--accent);border:1px solid var(--accent);}
+  .btn.del{background:#fff;color:#dc2626;border:1px solid #fecaca;padding:5px 9px;font-size:12px;}
+  .toolbar{display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap;}
+  .note{background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;padding:12px 14px;font-size:13px;color:#155e63;margin-bottom:16px;}
+  .killer{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 16px;margin-bottom:16px;}
+  .killer b{color:#92400e;}
+  .step{display:flex;gap:12px;margin-bottom:14px;}
+  .step .num{flex:none;width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;}
+  .decision{border-left:4px solid var(--accent);background:#f0fdfa;padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:14px;}
+  .decision b{color:var(--accent);}
+  ul.tight{margin:6px 0;padding-left:20px;}ul.tight li{margin:4px 0;}
+  .savehint{font-size:12px;color:var(--muted);}
+  code{background:#f1f5f9;padding:1px 6px;border-radius:5px;font-size:12px;}
+  .kpi{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:8px;}
+  .kpi .box{flex:1;min-width:150px;background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:12px 14px;}
+  .kpi .box span{display:block;color:var(--muted);font-size:12px;}
+  .kpi .box b{font-size:18px;}
+  @media print{nav.tabs{display:none;}section.tab{display:block!important;}header.top{-webkit-print-color-adjust:exact;}}
+
+  /* ===== Amazon-style restyle + full-page bald eagle watermark ===== */
+  :root{
+    --slate:#131921; --slate2:#232f3e; --bg:#eaeded; --card:rgba(255,255,255,.95);
+    --line:#d5d9d9; --muted:#565959; --accent:#007185;
+    --lane1:#232f3e; --lane2:#007185; --lane3:#c45500;
+    --display:"Amazon Ember","Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  body{background:var(--bg);color:#0f1111;font-family:var(--display);}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:url("eagle-watermark.jpg") center 16% / cover no-repeat;opacity:.07;}
+  h1,h2,h3,h4,nav.tabs button,.btn,.badge,header.top h1,.section-title{font-family:var(--display);letter-spacing:0;}
+  header.top{background:#131921;box-shadow:none;border-bottom:3px solid #232f3e;}
+  header.top h1{font-size:24px;text-transform:none;color:#fff;font-weight:700;}
+  header.top p{color:#cfd4d4;}
+  nav.tabs{background:#232f3e;}
+  nav.tabs button{color:#e6e6e6;}
+  nav.tabs button:hover{color:#fff;}
+  nav.tabs button.active{border-bottom-color:#ff9900;background:rgba(255,255,255,.06);color:#fff;}
+  .section-title{color:#0f1111;}
+  .card{border-radius:8px;border-color:#d5d9d9;box-shadow:0 1px 2px rgba(15,17,17,.06);}
+  .card h3{color:#0f1111;}
+  .btn{border-radius:8px;font-weight:500;background:#ffd814;color:#0f1111;box-shadow:none;border:1px solid #fcd200;}
+  .btn:hover{filter:none;transform:none;background:#f7ca00;}
+  .btn.ghost{background:#fff;color:#0f1111;box-shadow:0 2px 5px rgba(15,17,17,.08);border:1px solid #d5d9d9;}
+  .btn.del{background:#fff;color:#b12704;border:1px solid #d5d9d9;box-shadow:none;}
+  .badge{border-radius:4px;}
+  th{background:#232f3e;}
+  .note{background:#fff;border:1px solid #d5d9d9;border-left:4px solid #ff9900;color:#0f1111;border-radius:8px;}
+  .killer{background:#fef8f0;border:1px solid #ffd8a8;border-radius:8px;}
+  .killer b{color:#c45500;}
+  .decision{background:#f7fafa;border-left-color:#007185;border-radius:0 8px 8px 0;}
+  .decision b{color:#007185;}
+  .step .num{background:#ff9900;color:#0f1111;}
+  .kpi .box{border-radius:8px;background:#fff;border-color:#d5d9d9;}
+  input,select,textarea{border-radius:8px;border-color:#888c8c;background:#fff;}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:#007185;box-shadow:0 0 0 3px #c8f3fa;}
+  .scroll{border-radius:8px;border-color:#d5d9d9;}
+  .pill{background:#f0f2f2;color:#0f1111;border:1px solid #d5d9d9;}
+  code{background:#f0f2f2;color:#0f1111;}
+  tbody tr:nth-child(even){background:#f7fafa;}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Shane "The Hunt" &nbsp;&middot;&nbsp; Career Options Tracker</h1>
+  <p>From idea stage today to a targeted set of applications and interviews. Floor income $110k now, target $150k and up long term. San Diego market.</p>
+</header>
+
+<nav class="tabs" id="nav"></nav>
+<main>
+
+<!-- ========================= START HERE ========================= -->
+<section class="tab" id="start">
+  <h2 class="section-title">Start Here</h2>
+  <p class="sub">Read this once, then live in the Options Menu and the three trackers.</p>
+
+  <div class="card">
+    <h3>The strategy in one breath</h3>
+    <p>Shane runs an elite sales motion. The beverage industry just priced it badly. The move is not to learn a new skill, it is to attach the same motion to a product with a real comp plan. We sorted everything into <b>three lanes</b>, and the smart play is to enter through the middle lane so both futures stay open.</p>
+    <div class="grid2">
+      <div class="card" style="margin:0;border-top:4px solid var(--lane1);">
+        <span class="badge b1">LANE 1</span>
+        <h4>Employee</h4>
+        <p style="font-size:13px;margin:0;">Climb the ladder. Stable, capped, you own nothing. The no-regret fallback that stays open the whole time.</p>
+      </div>
+      <div class="card" style="margin:0;border-top:4px solid var(--lane2);">
+        <span class="badge b2">LANE 2</span>
+        <h4>Center / Merge (the trunk)</h4>
+        <p style="font-size:13px;margin:0;">Enter as a W2, build a book on the company's dime, then fork to owning it later. Pays the floor on day one, contains the autonomy upside. <b>Recommended entry point.</b></p>
+      </div>
+    </div>
+    <div class="card" style="margin:14px 0 0;border-top:4px solid var(--lane3);">
+      <span class="badge b3">LANE 3</span>
+      <h4>Autonomy now</h4>
+      <p style="font-size:13px;margin:0;">Own your book from day one (1099 / agency / brokerage). More hustle, calculated risk, uncapped upside. Where the trunk eventually forks for an Autonomy-Seeker.</p>
+    </div>
+  </div>
+
+  <div class="killer">
+    <b>The 2 killer questions.</b> Ask these in every informational interview. They cut through any confusing job title:
+    <ul class="tight">
+      <li><b>1. Is the income residual or one-time?</b> Residual means it keeps paying you on work you already did. That is the wealth builder.</li>
+      <li><b>2. If I build a book here, do I own it or does the company?</b> Own it means a path to autonomy exists. Company owns it means it is a pure employee seat.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>How to use this document</h3>
+    <div class="step"><div class="num">1</div><div><b>Options Menu.</b> Browse every viable role across the three lanes. Rate your interest 1 to 5 and set a status. This is your master menu.</div></div>
+    <div class="step"><div class="num">2</div><div><b>Jargon Decoder.</b> Whenever a title sounds like nonsense, look it up here first.</div></div>
+    <div class="step"><div class="num">3</div><div><b>Info Interviews.</b> Log every conversation. Always capture the answers to the 2 killer questions.</div></div>
+    <div class="step"><div class="num">4</div><div><b>Decision Scorecard.</b> Once you have a handful of real candidates, score them and let the ranking narrow the field.</div></div>
+    <div class="step"><div class="num">5</div><div><b>Applications.</b> Track everything you submit from applied through offer.</div></div>
+    <div class="step"><div class="num">6</div><div><b>Income Reference</b> and <b>The Journey.</b> The financial "why" and the full record of how these options were chosen.</div></div>
+  </div>
+
+  <div class="note">Everything you type into the trackers and the Options Menu saves automatically in this browser on this computer. It is private to you. Use the Print button on any tab to save a PDF or hard copy. To keep a backup, just keep a copy of this HTML file.</div>
+</section>
+
+<!-- ========================= OPTIONS MENU ========================= -->
+<section class="tab" id="options">
+  <h2 class="section-title">Career Options Menu</h2>
+  <p class="sub">Every viable option we identified, pre-loaded. Set your Interest and Status on the right. They save automatically.</p>
+  <div class="toolbar">
+    <button class="btn ghost" onclick="window.print()">Print / Save PDF</button>
+    <span class="savehint">Interest, Status and Notes save as you type.</span>
+  </div>
+  <div class="scroll">
+    <table id="optionsTable">
+      <thead><tr>
+        <th>Lane</th><th>Role / Titles to search</th><th>What it actually is</th>
+        <th>Example employers</th><th class="small">Search string</th>
+        <th class="small">Residual?</th><th class="small">Own book?</th>
+        <th class="small">Floor</th><th class="small">Potential</th>
+        <th class="small">Interest</th><th class="small">Status</th><th>Notes</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ========================= JARGON ========================= -->
+<section class="tab" id="jargon">
+  <h2 class="section-title">Jargon Decoder</h2>
+  <p class="sub">Plain English for the words that make job titles unreadable.</p>
+  <div class="scroll">
+    <table id="jargonTable">
+      <thead><tr><th style="width:22%;">Term</th><th style="width:43%;">Plain English</th><th>Why it matters</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ========================= INFO INTERVIEWS ========================= -->
+<section class="tab" id="interviews">
+  <h2 class="section-title">Informational Interview Tracker</h2>
+  <p class="sub">Log every conversation. The two killer-question columns are the whole point.</p>
+  <div class="killer" style="margin-bottom:14px;">
+    <b>Always ask:</b> (1) Is the income residual or one-time? &nbsp;(2) If I build a book here, do I own it or does the company?
+  </div>
+  <div class="toolbar">
+    <button class="btn" onclick="addRow('interviews')">+ Add interview</button>
+    <button class="btn ghost" onclick="window.print()">Print / Save PDF</button>
+    <span class="savehint">Saves automatically.</span>
+  </div>
+  <div class="scroll"><table id="interviewsTable"><thead></thead><tbody></tbody></table></div>
+</section>
+
+<!-- ========================= SCORECARD ========================= -->
+<section class="tab" id="scorecard">
+  <h2 class="section-title">Decision Scorecard</h2>
+  <p class="sub">Score your real candidates 1 (poor) to 5 (great) on each factor. Total auto-calculates so you can rank them.</p>
+  <div class="note">
+    <b>Factor guide:</b> Income Fit (does it clear $110k now, $150k later) &middot; Autonomy Potential (can it fork to owning a book) &middot; Interest / Energy (does it light you up) &middot; Ramp Speed (how fast to real money) &middot; Risk Comfort (5 = feels safe) &middot; San Diego Fit (market and territory) &middot; Low Licensing Burden (5 = little to no licensing).
+  </div>
+  <div class="toolbar">
+    <button class="btn" onclick="addRow('scorecard')">+ Add option</button>
+    <button class="btn ghost" onclick="window.print()">Print / Save PDF</button>
+    <span class="savehint">Saves automatically.</span>
+  </div>
+  <div class="scroll"><table id="scorecardTable"><thead></thead><tbody></tbody></table></div>
+</section>
+
+<!-- ========================= APPLICATIONS ========================= -->
+<section class="tab" id="applications">
+  <h2 class="section-title">Application Tracker</h2>
+  <p class="sub">Everything you submit, from applied through offer.</p>
+  <div class="toolbar">
+    <button class="btn" onclick="addRow('applications')">+ Add application</button>
+    <button class="btn ghost" onclick="window.print()">Print / Save PDF</button>
+    <span class="savehint">Saves automatically.</span>
+  </div>
+  <div class="scroll"><table id="applicationsTable"><thead></thead><tbody></tbody></table></div>
+</section>
+
+<!-- ========================= INCOME REFERENCE ========================= -->
+<section class="tab" id="income">
+  <h2 class="section-title">Income &amp; Scenario Reference</h2>
+  <p class="sub">The financial "why" behind the whole plan. San Diego, 2026, directional figures.</p>
+
+  <div class="card">
+    <h3>Targets</h3>
+    <div class="kpi">
+      <div class="box"><span>Floor (now)</span><b>$110k gross</b></div>
+      <div class="box"><span>Target (long term)</span><b>$150k+ gross</b></div>
+      <div class="box"><span>Ideal household</span><b>Two earners</b></div>
+      <div class="box"><span>Partner income (ideal)</span><b>~$110k</b></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Take-home (after fed, CA, FICA)</h3>
+      <table><tbody>
+        <tr><td>$110k solo</td><td><b>~$6,600 / mo</b></td></tr>
+        <tr><td>$150k solo</td><td><b>~$8,500 / mo</b></td></tr>
+        <tr><td>$150k married, sole earner</td><td><b>~$9,600 / mo</b></td></tr>
+        <tr><td>$220k household ($110k + $110k)</td><td><b>~$13,250 / mo</b></td></tr>
+        <tr><td>$260k household ($150k + $110k)</td><td><b>~$15,250 / mo</b></td></tr>
+      </tbody></table>
+    </div>
+    <div class="card">
+      <h3>San Diego cost anchors</h3>
+      <table><tbody>
+        <tr><td>Rent, 1BR</td><td>~$2,500 / mo</td></tr>
+        <tr><td>Rent, 2BR (couple)</td><td>~$3,500 / mo</td></tr>
+        <tr><td>Entry condo / townhome (~$700k)</td><td>~$3,700 / mo all in</td></tr>
+        <tr><td>Median house (~$950k)</td><td>~$6,300 / mo all in</td></tr>
+        <tr><td>Childcare (per kid)</td><td>~$1,800 to $2,500 / mo</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>The four scenarios</h3>
+    <div class="scroll">
+    <table><thead><tr><th>Scenario</th><th>Income needed</th><th>Housing</th><th>Career lane required</th></tr></thead>
+    <tbody>
+      <tr><td>Solo, now</td><td>$110k</td><td>Rent</td><td>Any lane. No risk needed.</td></tr>
+      <tr><td>Solo, long term</td><td>$150k+</td><td>Rent, or stretch-buy a condo</td><td>Lane 1 senior, or Lane 2 book maturing.</td></tr>
+      <tr><td>Married, dual income</td><td>$170k+ household</td><td>Rent then own</td><td>Lane 1 employee is fine.</td></tr>
+      <tr><td>Married, sole earner, SD house + kids</td><td><b>$200k+ Shane alone</b></td><td>Own</td><td><b>Autonomy / residual, or sales director.</b></td></tr>
+    </tbody></table>
+    </div>
+  </div>
+
+  <div class="decision">
+    <b>The conclusion that drives the plan.</b> With the ideal of two earners and a partner near $110k, the household clears <b>$220k to $260k+</b>, which makes <b>every</b> scenario viable, including a San Diego house with kids, without Shane ever needing to hit $200k alone. So the autonomy path stops being a financial requirement and becomes a <b>fit and upside</b> choice. And the partner's income is exactly the runway that funds the lean early years of building an independent book. That is what makes the autonomy fork a calculated risk instead of a reckless one.
+  </div>
+</section>
+
+<!-- ========================= THE JOURNEY ========================= -->
+<section class="tab" id="journey">
+  <h2 class="section-title">The Journey &middot; Record of How We Got Here</h2>
+  <p class="sub">The questions we contemplated, the decisions we made, and why. Kept for the record.</p>
+
+  <div class="card">
+    <h3>Where we started</h3>
+    <p>The opening goal: understand everything Shane could move into that would <b>not feel like starting over with an entirely new skillset</b>, given a deep background in craft beer and beverage sales, marketing, events, and an Advanced Cicerone credential.</p>
+    <p>We first mapped his <b>portable, industry-agnostic assets</b>: a documented territory-growth sales motion (253%, 300%, 205% growth, multiple contest wins), B2B / distributor / channel selling, marketing and event production with real budgets, training and curriculum design, plus a Psychology and Marketing education and a high-energy, relationship-driven, servant-leader personality.</p>
+  </div>
+
+  <div class="card">
+    <h3>The pivot that reframed everything</h3>
+    <p>Shane is essentially done with beer, and likely food and beverage broadly. Too flaky an industry, not lucrative enough to reach his financial goals.</p>
+    <div class="decision"><b>Decision / reframe:</b> The industry was the problem, not the skillset. He ran an elite sales motion inside an industry with poor comp economics. So the strategy is not "learn a new skill," it is "attach the same motion to a product with a real comp plan." We stopped anchoring on the beer-specific credentials and started sorting by transferable selling structure.</div>
+  </div>
+
+  <div class="card">
+    <h3>Question: is there a path without a quota?</h3>
+    <p>Shane was bearish that a non-quota path exists that actually pays. The honest answer: he is about 80% right, there is no high-income job with zero accountability to a number. But he was conflating two different things that happened to arrive together in beer.</p>
+    <ul class="tight">
+      <li><b>The quota</b> = a number you are accountable to.</li>
+      <li><b>The grind</b> = cold, transactional, monthly reset, eat-what-you-kill, flaky product, bad pay.</li>
+    </ul>
+    <div class="decision"><b>Insight:</b> In beer he had the worst of both. He had never seen the quota decoupled from the grind. The decoupled versions, <b>residual / own-your-book sales</b> and <b>channel / partnership management</b>, are the "I did not know that existed" answers. The number does not disappear at high income, but its form is the difference between dread and a job you can live inside.</div>
+  </div>
+
+  <div class="card">
+    <h3>Question: employee or entrepreneur?</h3>
+    <p>We tested whether Shane is employee material or wired to be his own boss by default. The key evidence was a self-employed consultancy he ran for nearly four years <b>concurrently with every full-time job</b>, which never replaced his income. That single fact cut both ways, so we resolved it with a sharper distinction:</p>
+    <ul class="tight">
+      <li><b>The Founder</b> wants to build equity and a product, and accepts bet-the-house risk.</li>
+      <li><b>The Autonomy-Seeker</b> just does not want a boss and wants pay tied to effort, and prefers calculated risk on a proven product.</li>
+    </ul>
+    <div class="decision"><b>Decision:</b> Shane confirmed he knows himself to be an <b>Autonomy-Seeker, not a Founder</b>. His own framing: willing to hustle and take more risk, but calculated risk only. This is the better-served, far less dangerous profile, and it pointed us straight at 1099 / own-your-book structures rather than founding a company.</div>
+  </div>
+
+  <div class="card">
+    <h3>Decision: two paths plus a shared trunk</h3>
+    <p>Rather than choosing employee vs autonomy now, we structured it as two paths with a center / merge lane that keeps both open.</p>
+    <ul class="tight">
+      <li><span class="badge b1">LANE 1</span> Employee. The no-regret fallback. Stays open the entire time.</li>
+      <li><span class="badge b2">LANE 2</span> Center / Merge. Enter as a W2 in a vertical that contains both endgames, build the book on the employer's dime, then fork to independent later.</li>
+      <li><span class="badge b3">LANE 3</span> Autonomy. Own the book from day one, or the place Lane 2 forks into.</li>
+    </ul>
+    <div class="decision"><b>Why this works:</b> Three verticals (payments, insurance, medical device) contain <b>both</b> a corporate ladder and an independent-owner endgame. Shane enters through the W2 door, and his life answers the employee-vs-autonomy question over the next 18 to 36 months, once he has a portable book and runway. SaaS was flagged as Lane 1 only, because it has no independent-agent fork.</div>
+  </div>
+
+  <div class="card">
+    <h3>Getting specific</h3>
+    <p>Because Shane is actively networking and doing informational interviews now, we demystified the vague category labels into concrete, searchable job titles, plain-English descriptions, and named employers across all three lanes. That full list is the <b>Career Options Menu</b> tab. We also built the <b>Jargon Decoder</b> and the two killer questions to use in every conversation.</p>
+  </div>
+
+  <div class="card">
+    <h3>The financial model</h3>
+    <p>We modeled four scenarios across solo vs married and near-term vs long-term, against a $110k floor and $150k+ target in the San Diego market. The expensive scenario (married, sole earner, San Diego house with kids) is the only one that would <b>require</b> the autonomy path, because it needs $200k+ from Shane alone.</p>
+    <div class="decision"><b>The deciding assumption:</b> Shane's ideal is a two-earner household with a partner near $110k. That puts the household at $220k to $260k+, which makes <b>every</b> scenario financially viable on the safe employee track alone. So autonomy becomes a fit-and-upside choice, not a survival requirement, and the partner's income is the runway that de-risks the eventual fork. Full numbers live on the Income Reference tab.</div>
+  </div>
+
+  <div class="card">
+    <h3>Question: what about real estate?</h3>
+    <p>Real estate came up as a possible path. It lands squarely in <span class="badge b3">LANE 3</span> as a pure Autonomy-Seeker play: 1099 from day one, own your book, uncapped, no W2 quota. On wiring, it fits Shane perfectly.</p>
+    <ul class="tight">
+      <li><b>The catch on timing:</b> it has the longest, leanest cold-start ramp of anything we discussed, often near zero income for 6 to 18 months. That clashes hardest with the "money now" floor, so it only works with the partner's income covering the ramp.</li>
+      <li><b>Residential vs commercial:</b> residential rewards a warm homebuyer network he does not yet have. Commercial (CRE) rewards exactly his B2B, data-driven, relationship selling, so it is the better fit for his actual skillset.</li>
+      <li><b>No true residual:</b> income is commission per deal, not a recurring slice. It is "own your book" in the autonomy sense, but it does not compound like payments or insurance residuals do.</li>
+    </ul>
+    <div class="decision"><b>Decision:</b> Keep real estate on the menu as a legitimate Lane 3 option, but rank it below independent payments and independent insurance for Shane, because of the brutal ramp and the lack of a compounding residual. If he is drawn to it, <b>commercial</b> is the version that uses his existing skillset, and the smart entry mirrors the whole strategy: join a brokerage first as the bridge, then build his own book. Both real estate rows are on the Options Menu.</div>
+  </div>
+
+  <div class="card">
+    <h3>The recommended setup we landed on</h3>
+    <ol class="tight">
+      <li><b>Enter the center lane</b> (payments, insurance, or medical device) <b>as a W2.</b> Clears the $110k floor on day one.</li>
+      <li><b>Build the book on the employer's dime</b> for two to three years while the household runs comfortably on dual income.</li>
+      <li><b>Fork to independent when Shane wants to,</b> with the partner's income as the safety net. The $200k+ ceiling becomes wealth acceleration, not survival.</li>
+      <li><b>Lane 1 stays fully open</b> the whole time as the no-regret fallback.</li>
+    </ol>
+    <p style="margin-bottom:0;">Open next step we had teed up: an income-curve timeline (year 1, 3, 5, 7) for the center-lane path against the $110k and $150k thresholds, so Shane can time life decisions against it.</p>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* ---------------- Tab data ---------------- */
+const TABS=[
+  ["start","Start Here"],["options","Options Menu"],["jargon","Jargon Decoder"],
+  ["interviews","Info Interviews"],["scorecard","Decision Scorecard"],
+  ["applications","Applications"],["income","Income Reference"],["journey","The Journey"]
+];
+const nav=document.getElementById("nav");
+TABS.forEach(([id,label],i)=>{
+  const b=document.createElement("button");b.textContent=label;b.dataset.id=id;
+  b.onclick=()=>show(id);nav.appendChild(b);
+});
+function show(id){
+  document.querySelectorAll("section.tab").forEach(s=>s.classList.toggle("active",s.id===id));
+  document.querySelectorAll("nav.tabs button").forEach(b=>b.classList.toggle("active",b.dataset.id===id));
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+show("start");
+
+/* ---------------- Options Menu data ---------------- */
+const OPTIONS=[
+  {id:"l1ae",lane:1,role:"Account Executive (AE) — SaaS / Tech",what:"Close software deals on quota with high OTE. Your hospitality-tech knowledge is a fast door in.",emp:"Toast, Provi, Square (W2 side), Salesforce-style SaaS",search:'"Account Executive" SaaS',res:"No",own:"No",floor:"$110k to $130k",pot:"$150k to $250k OTE"},
+  {id:"l1terr",lane:1,role:"Territory / Regional Sales Manager — Industrial / Building Products",what:"Own a geography and a number selling physical products. Stable, unsexy, six figures.",emp:"Building-products and industrial manufacturers",search:'"Territory Sales Manager" -insurance',res:"No",own:"No",floor:"$90k to $120k",pot:"$150k to $200k"},
+  {id:"l1pharma",lane:1,role:"Pharmaceutical Sales Representative",what:"Sell prescription drugs to physicians. Structured and stable; recruits proven reps.",emp:"Pfizer, Merck, AbbVie",search:'"Pharmaceutical Sales Representative"',res:"No",own:"No",floor:"$90k to $110k base",pot:"$150k+"},
+  {id:"l1kam",lane:1,role:"Strategic / Key Account Manager",what:"Grow and retain large existing accounts. Relationship farming, less cold hunt.",emp:"Varies by industry",search:'"Strategic Account Manager"',res:"No",own:"No",floor:"$100k to $130k",pot:"$150k to $200k"},
+  {id:"l1dir",lane:1,role:"Sales Director (management endgame)",what:"Lead a sales team. The ceiling of the employee path. Fits the motivator personality.",emp:"Varies",search:'"Sales Director"',res:"No",own:"No",floor:"$150k+",pot:"$200k to $300k"},
+
+  {id:"l2pay",lane:2,role:"Payments — Business Consultant / AE, Merchant Services",what:"Sign businesses up to accept card payments and earn a residual slice of every transaction forever.",emp:"Toast, Square / Block, Fiserv (Clover), Global Payments, Heartland, Shift4, Stax",search:'Toast "Business Consultant"; "Merchant Services" sales',res:"Yes",own:"Later (ISO agent)",floor:"$110k+",pot:"$200k+"},
+  {id:"l2cl",lane:2,role:"Insurance — Commercial Lines Producer",what:"B2B insurance sales. Commission upfront plus renewal commission every year the client stays.",emp:"Gallagher, HUB International, Acrisure, Brown & Brown, USI, Marsh",search:'"Commercial Lines Producer"',res:"Yes",own:"Later (own agency)",floor:"$110k+",pot:"$200k+"},
+  {id:"l2eb",lane:2,role:"Insurance — Employee Benefits Consultant / Producer",what:"Sell health, dental, and life plans to companies for their employees.",emp:"Same brokerages plus dedicated benefits firms",search:'"Employee Benefits" producer',res:"Yes",own:"Later",floor:"$110k+",pot:"$200k+"},
+  {id:"l2med",lane:2,role:"Medical Device — Sales Rep / Surgical Rep / Territory Manager",what:"Sell equipment, implants, and tools to hospitals, surgeons, and clinics. Relationship-heavy, often in the OR.",emp:"Stryker, Medtronic, J&J (DePuy / Ethicon), Boston Scientific, Zimmer Biomet, Intuitive, Abbott; dental: Henry Schein, Patterson",search:'"Medical Device Sales"; "Surgical Sales Representative"',res:"Some",own:"Later (1099 distributorship)",floor:"$90k to $120k base",pot:"$200k+"},
+
+  {id:"l3ins",lane:3,role:"Independent Insurance Agency Owner",what:"Own your book immediately, starting under an aggregator or franchise. The book itself becomes a sellable asset.",emp:"SIAA (aggregator), Goosehead, Brightway, Allstate / Farmers agency ownership",search:'"independent insurance agency owner"',res:"Yes",own:"Yes",floor:"Volatile early",pot:"$200k+"},
+  {id:"l3iso",lane:3,role:"Independent Payments / ISO Agent",what:"Sign with an ISO, resell payment processing, and keep the residuals. No employer.",emp:"Various ISOs",search:'"ISO agent" payments 1099',res:"Yes",own:"Yes",floor:"Volatile early",pot:"$200k+"},
+  {id:"l3cre",lane:3,role:"Commercial Real Estate Agent / Broker",what:"B2B property leasing and sales. The version of real estate that uses his existing B2B and data skillset directly. Smart entry mirrors the trunk strategy: join a brokerage first, let them fund the ramp and teach the market, then build your own book.",emp:"CBRE, Cushman & Wakefield, Marcus & Millichap, JLL, local brokerages",search:'"commercial real estate" agent San Diego brokerage',res:"No (per-deal commission)",own:"Yes",floor:"Volatile, long ramp",pot:"$150k+ uncapped"},
+  {id:"l3res",lane:3,role:"Residential Real Estate Agent",what:"Help people buy and sell homes. 1099 from day one, uncapped, but the leanest cold-start ramp of any option here (often near zero for 6 to 18 months). Marketing and high-energy personality fit; the homebuyer network would be built from scratch.",emp:"Compass, eXp Realty, Keller Williams, Coldwell Banker, local brokerages",search:'"real estate agent" San Diego brokerage hiring',res:"No (per-deal commission)",own:"Yes",floor:"Volatile, often near zero early",pot:"$150k+ uncapped"},
+  {id:"l3rep",lane:3,role:"Manufacturer's Sales Rep (independent rep agency)",what:"Represent multiple non-competing product lines on commission across your own accounts.",emp:"Independent rep agencies",search:'"manufacturers representative"',res:"Yes",own:"Yes",floor:"Volatile",pot:"$150k+"},
+  {id:"l3fran",lane:3,role:"Franchise Owner",what:"Calculated-risk entrepreneurship with a proven playbook. Requires capital.",emp:"Various franchise systems",search:'franchise opportunities San Diego',res:"n/a",own:"Yes (equity)",floor:"Volatile",pot:"Varies"}
+];
+const STATUS_OPTS=["Not started","Researching","Info interview booked","Applying","Applied","Interviewing","Passed / Out"];
+const optState=load("shaneOptState",{});
+function renderOptions(){
+  const tb=document.querySelector("#optionsTable tbody");tb.innerHTML="";
+  OPTIONS.forEach(o=>{
+    const st=optState[o.id]||{interest:"",status:"",notes:""};
+    const tr=document.createElement("tr");
+    tr.innerHTML=`
+      <td><span class="badge b${o.lane}">LANE ${o.lane}</span></td>
+      <td><b>${o.role}</b><div class="savehint" style="margin-top:4px;">Search: <code>${o.search}</code></div></td>
+      <td>${o.what}</td>
+      <td>${o.emp}</td>
+      <td class="small">${o.search}</td>
+      <td class="small">${o.res}</td>
+      <td class="small">${o.own}</td>
+      <td class="small">${o.floor}</td>
+      <td class="small">${o.pot}</td>
+      <td class="small"><select data-id="${o.id}" data-f="interest">${["","1","2","3","4","5"].map(v=>`<option ${st.interest===v?"selected":""}>${v}</option>`).join("")}</select></td>
+      <td class="small"><select data-id="${o.id}" data-f="status">${["",...STATUS_OPTS].map(v=>`<option ${st.status===v?"selected":""}>${v}</option>`).join("")}</select></td>
+      <td><textarea data-id="${o.id}" data-f="notes">${st.notes||""}</textarea></td>`;
+    tb.appendChild(tr);
+  });
+  tb.querySelectorAll("select,textarea").forEach(el=>{
+    el.addEventListener("change",saveOpt);el.addEventListener("input",saveOpt);
+  });
+}
+function saveOpt(e){
+  const id=e.target.dataset.id,f=e.target.dataset.f;
+  optState[id]=optState[id]||{interest:"",status:"",notes:""};
+  optState[id][f]=e.target.value;save("shaneOptState",optState);
+}
+renderOptions();
+
+/* ---------------- Jargon ---------------- */
+const JARGON=[
+  ["Payments / Merchant Services","Helping businesses accept credit cards; you earn a slice of every transaction forever.","That recurring slice (the residual) is how this lane builds wealth."],
+  ["Residual income","Money you keep earning on work you already did, like a cut of every transaction or policy renewal.","The difference between wealth-building and one-time commission."],
+  ["Producer","Insurance-speak for salesperson.","\"Commercial Lines Producer\" simply means B2B insurance salesperson."],
+  ["Lines","Types of insurance: commercial (businesses), personal (home / auto), benefits (employee health), P&C (property and casualty).","Tells you who you would be selling to."],
+  ["Captive vs Independent","Captive means you sell one company's product. Independent means you sell many and own your book.","Captive is the W2 trunk; Independent is the autonomy fork."],
+  ["ISO (Independent Sales Organization)","The structure an independent payments agent plugs into to resell and own residuals.","\"Becoming an ISO agent\" is the own-your-book version of payments."],
+  ["Capital equipment","Big-ticket machines (a surgical robot, an imaging system) vs disposables used up each procedure.","Common language in medical-device postings."],
+  ["OTE (On-Target Earnings)","Base salary plus the commission you would earn at 100% of quota.","The real comp number to compare across sales roles."],
+  ["Book of business","Your portfolio of clients and their recurring revenue.","In Lanes 2 and 3, this becomes your sellable asset."],
+  ["Distributorship","An independent business that sells a manufacturer's products in a territory.","The medical-device autonomy fork."]
+];
+(function(){const tb=document.querySelector("#jargonTable tbody");
+  JARGON.forEach(([t,p,w])=>{const tr=document.createElement("tr");
+    tr.innerHTML=`<td><b>${t}</b></td><td>${p}</td><td>${w}</td>`;tb.appendChild(tr);});
+})();
+
+/* ---------------- Generic trackers ---------------- */
+const TRACKERS={
+  interviews:{
+    key:"shaneInterviews",
+    cols:[
+      {k:"date",label:"Date",type:"date"},
+      {k:"name",label:"Name",type:"text"},
+      {k:"role",label:"Title / Role",type:"text"},
+      {k:"company",label:"Company",type:"text"},
+      {k:"lane",label:"Lane",type:"select",opts:["","Lane 1","Lane 2","Lane 3"]},
+      {k:"how",label:"How connected",type:"text"},
+      {k:"status",label:"Status",type:"select",opts:["","Requested","Scheduled","Done","No response"]},
+      {k:"q1",label:"Q1: residual or one-time?",type:"text"},
+      {k:"q2",label:"Q2: own the book?",type:"text"},
+      {k:"notes",label:"Key notes",type:"textarea"},
+      {k:"verdict",label:"Verdict",type:"select",opts:["","Pursue","Maybe","Pass"]}
+    ]
+  },
+  scorecard:{
+    key:"shaneScorecard",
+    score:true,
+    cols:[
+      {k:"option",label:"Option / Role",type:"text"},
+      {k:"income",label:"Income Fit",type:"num"},
+      {k:"autonomy",label:"Autonomy",type:"num"},
+      {k:"interest",label:"Interest / Energy",type:"num"},
+      {k:"ramp",label:"Ramp Speed",type:"num"},
+      {k:"risk",label:"Risk Comfort",type:"num"},
+      {k:"sd",label:"San Diego Fit",type:"num"},
+      {k:"lic",label:"Low Licensing Burden",type:"num"},
+      {k:"total",label:"Total",type:"total"}
+    ]
+  },
+  applications:{
+    key:"shaneApplications",
+    cols:[
+      {k:"date",label:"Date applied",type:"date"},
+      {k:"company",label:"Company",type:"text"},
+      {k:"role",label:"Role",type:"text"},
+      {k:"lane",label:"Lane",type:"select",opts:["","Lane 1","Lane 2","Lane 3"]},
+      {k:"url",label:"Posting URL",type:"text"},
+      {k:"resume",label:"Resume version",type:"text"},
+      {k:"ref",label:"Referral?",type:"text"},
+      {k:"status",label:"Status",type:"select",opts:["","Applied","Phone screen","Interviewing","Offer","Rejected","Withdrew"]},
+      {k:"next",label:"Next action",type:"text"},
+      {k:"followup",label:"Follow-up date",type:"date"},
+      {k:"notes",label:"Notes",type:"textarea"}
+    ]
+  }
+};
+
+function renderTracker(name){
+  const cfg=TRACKERS[name];
+  const data=load(cfg.key,[]);
+  const thead=document.querySelector(`#${name}Table thead`);
+  const tbody=document.querySelector(`#${name}Table tbody`);
+  thead.innerHTML="<tr>"+cfg.cols.map(c=>`<th>${c.label}</th>`).join("")+"<th></th></tr>";
+  tbody.innerHTML="";
+  data.forEach((row,ri)=>{
+    const tr=document.createElement("tr");
+    cfg.cols.forEach(c=>{
+      const td=document.createElement("td");
+      if(c.type==="total"){
+        td.innerHTML=`<b class="totalcell" data-ri="${ri}">${rowTotal(cfg,row)}</b>`;
+      }else if(c.type==="select"){
+        td.innerHTML=`<select>${c.opts.map(o=>`<option ${row[c.k]===o?"selected":""}>${o}</option>`).join("")}</select>`;
+        bind(td.firstChild,name,ri,c.k);
+      }else if(c.type==="textarea"){
+        td.innerHTML=`<textarea>${row[c.k]||""}</textarea>`;bind(td.firstChild,name,ri,c.k);
+      }else if(c.type==="num"){
+        const inp=document.createElement("input");inp.type="number";inp.min=1;inp.max=5;
+        inp.value=row[c.k]||"";inp.style.width="64px";bind(inp,name,ri,c.k,true);td.appendChild(inp);
+      }else{
+        const inp=document.createElement("input");inp.type=(c.type==="date")?"date":"text";
+        inp.value=row[c.k]||"";bind(inp,name,ri,c.k);td.appendChild(inp);
+      }
+      tr.appendChild(td);
+    });
+    const del=document.createElement("td");
+    del.innerHTML=`<button class="btn del">Delete</button>`;
+    del.firstChild.onclick=()=>{const d=load(cfg.key,[]);d.splice(ri,1);save(cfg.key,d);renderTracker(name);};
+    tr.appendChild(del);
+    tbody.appendChild(tr);
+  });
+}
+function bind(el,name,ri,key,isScore){
+  const cfg=TRACKERS[name];
+  const handler=()=>{
+    const d=load(cfg.key,[]);d[ri][key]=el.value;save(cfg.key,d);
+    if(isScore){const cell=document.querySelector(`.totalcell[data-ri="${ri}"]`);if(cell)cell.textContent=rowTotal(cfg,d[ri]);}
+  };
+  el.addEventListener("change",handler);el.addEventListener("input",handler);
+}
+function rowTotal(cfg,row){
+  return cfg.cols.filter(c=>c.type==="num").reduce((s,c)=>s+(parseInt(row[c.k])||0),0);
+}
+function addRow(name){
+  const cfg=TRACKERS[name];const d=load(cfg.key,[]);
+  const blank={};cfg.cols.forEach(c=>blank[c.k]="");d.push(blank);save(cfg.key,d);renderTracker(name);
+}
+["interviews","scorecard","applications"].forEach(renderTracker);
+
+/* ---------------- storage helpers ---------------- */
+function load(k,def){try{const v=localStorage.getItem(k);return v?JSON.parse(v):def;}catch(e){return def;}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+</script>
+</body>
+</html>
