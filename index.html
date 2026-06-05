@@ -120,7 +120,8 @@
   .azbar .srchbtn{flex:none;background:#febd69;border:none;color:#0f1111;font-size:16px;padding:0 15px;cursor:pointer;}
   .azbar .srchbtn:hover{background:#f3a847;}
   .azbar .acct{display:flex;gap:16px;align-items:center;}
-  .azbar .acctcol{font-size:13px;line-height:1.15;cursor:default;}
+  .azbar .acctcol{font-size:13px;line-height:1.15;cursor:pointer;}
+  .azbar .acctcol:hover b{text-decoration:underline;}
   .azbar .acctcol span{display:block;color:#dcded0;font-size:11px;}
   .azbar .cart{cursor:pointer;text-align:center;line-height:1.1;display:flex;align-items:baseline;gap:3px;}
   .azbar .cart .cartemoji{font-size:18px;}
@@ -184,8 +185,8 @@
     <button class="srchbtn" onclick="doSearch()">&#128269;</button>
   </div>
   <div class="acct">
-    <div class="acctcol"><span>Hello, Shane</span><b>Account &amp; Lists &#9662;</b></div>
-    <div class="acctcol"><span>Returns</span><b>&amp; Offers</b></div>
+    <div class="acctcol" onclick="show('versions')" title="Your saved data &amp; backups"><span>Hello, Shane</span><b>Account &amp; Lists &#9662;</b></div>
+    <div class="acctcol" onclick="show('resources')" title="Helpful links"><span>Returns</span><b>&amp; Resources</b></div>
     <div class="cart" onclick="show('options')" title="Your shortlist"><span class="cartemoji">&#128722;</span><span id="cartcount">0</span><b>Shortlist</b></div>
   </div>
 </div>
@@ -277,18 +278,18 @@
 
   <div class="card" style="margin-top:18px;">
     <h3>Frequently pursued together</h3>
-    <div class="fbt">
-      <label class="item"><input type="checkbox" checked> Payments (W2)</label><span>+</span>
-      <label class="item"><input type="checkbox" checked> Commercial Lines Producer</label><span>+</span>
-      <label class="item"><input type="checkbox" checked> Independent CRE</label>
-      <button class="btn" style="margin-left:auto;" onclick="toast('The Autonomy Bundle added. You now own three books and zero bosses.')">Add all 3 to Shortlist</button>
+    <div class="fbt" id="fbt">
+      <label class="item"><input type="checkbox" data-id="l2pay" checked> Payments (W2)</label><span>+</span>
+      <label class="item"><input type="checkbox" data-id="l2cl" checked> Commercial Lines Producer</label><span>+</span>
+      <label class="item"><input type="checkbox" data-id="l3cre" checked> Independent CRE</label>
+      <button class="btn" style="margin-left:auto;" onclick="addBundle()">Add all 3 to Shortlist</button>
     </div>
     <p class="savehint" style="margin-top:8px;">Total estimated value: one financially free Autonomy-Seeker. Free 2-day hireability if you apply within 3 hrs 14 mins.</p>
   </div>
 
   <div class="card">
     <h3>Customer reviews</h3>
-    <div class="savehint" style="margin-bottom:6px;">4.7 out of 5 &middot; 9,418 global career-changer ratings &middot; most helpful first</div>
+    <div class="savehint" style="margin-bottom:6px;">4.7 out of 5 &middot; 9,418 global career-changer ratings &middot; most helpful first<br>Heads up: the star ratings and "Best Seller" badges on this page are for fun. The real ranking logic lives in The Journey tab.</div>
     <div id="reviews"></div>
   </div>
 </section>
@@ -602,6 +603,26 @@
   </div>
 
   <div class="card">
+    <h3>Weighted for Shane's lanes (sales &amp; relationship roles)</h3>
+    <p class="sub" style="margin-bottom:10px;">The table above is the universal best-of, and those general assistants plus AI search sit underneath everything. But for the lanes in this document (payments, insurance, medical device, CRE, and B2B sales), prioritize the tools below. They map straight onto the daily work and become the story he tells in interviews.</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Job to be done</th><th>Reach for</th><th>How it maps to his lanes</th></tr></thead>
+        <tbody>
+          <tr><td><b>Account, market &amp; property research before a call</b></td><td>Perplexity + Claude/ChatGPT</td><td>Brief any prospect, market, or building in minutes. Core for CRE and commercial insurance.</td></tr>
+          <tr><td><b>Find &amp; enrich leads, personalize outreach at scale</b></td><td>Clay, Apollo.io</td><td>Build a prospecting book fast, the literal engine of payments and insurance hunting.</td></tr>
+          <tr><td><b>Never lose a call again</b></td><td>Granola / Fireflies notetaker</td><td>Auto summaries and next steps straight into the CRM. Gold for any quota role.</td></tr>
+          <tr><td><b>Call coaching &amp; deal intelligence</b></td><td>Gong (if the employer runs it)</td><td>Learn what wins. Common in medical device and SaaS sales orgs.</td></tr>
+          <tr><td><b>Proposals, quotes, sell sheets, decks</b></td><td>Claude/ChatGPT + Canva Magic</td><td>Turn a brief into a polished, on-brand one-pager in minutes.</td></tr>
+          <tr><td><b>CRM &amp; pipeline hygiene</b></td><td>HubSpot AI / Salesforce Einstein</td><td>Whatever stack the employer uses, the AI features cut the admin tax.</td></tr>
+          <tr><td><b>Targeted networking &amp; warm messaging</b></td><td>LinkedIn Sales Navigator + AI drafting</td><td>Find the right buyer and open warm. Works across every lane.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note" style="margin-top:12px;">Interview line that lands: "Give me a prospect and a CRM and I will research them, personalize the outreach, run the call, summarize it, and have a proposal out before most reps finish their notes." That is the lane-weighted version of the AI edge.</div>
+  </div>
+
+  <div class="card">
     <h3>The mini curriculum: search-user to AI-enhancer</h3>
     <p class="sub" style="margin-bottom:14px;">Nine short modules. Do one a day, or one every few days. Each has a "try it" so he learns by doing, not reading.</p>
     <div class="step"><div class="num">1</div><div><b>What AI actually is.</b> Large language models predict the next chunk of text from patterns, they are not a database and they do not "know" things the way a person does. Learn the core ideas: tokens, context window, training cutoff, and why it can sound confident and still be wrong (hallucination). <span class="savehint">Try it: ask a model "explain how you work in plain English, and where you are most likely to be wrong."</span></div></div>
@@ -738,8 +759,11 @@ function renderOptions(){
     toast("Added to Shortlist. Excellent taste.");
   });
   tb.querySelectorAll(".azbtn.buy").forEach(b=>b.onclick=()=>{
-    toast("Ships from: Reality. Sold by: Your Future Self. Estimated onboarding: as soon as you close this tab and actually apply.");
+    const id=b.dataset.id;optState[id]=optState[id]||{interest:"",status:"",notes:""};
+    optState[id].status="Applying";save("shaneOptState",optState);renderOptions();
+    toast("Status set to Applying. Ships from: Reality. Sold by: Your Future Self. Now go actually apply.");
   });
+  tb.querySelectorAll(".rlink").forEach(a=>{a.style.cursor="pointer";a.onclick=()=>{const r=document.getElementById("reviews");if(r)r.scrollIntoView({behavior:"smooth"});};});
   updateCart();
 }
 function saveOpt(e){
@@ -750,6 +774,14 @@ function saveOpt(e){
 function updateCart(){
   const n=Object.values(optState).filter(s=>s&&(s.interest==="4"||s.interest==="5")).length;
   const el=document.getElementById("cartcount");if(el)el.textContent=n;
+}
+function addBundle(){
+  let n=0;
+  document.querySelectorAll('#fbt input[type=checkbox]').forEach(c=>{
+    if(c.checked){const id=c.dataset.id;optState[id]=optState[id]||{interest:"",status:"",notes:""};optState[id].interest="5";n++;}
+  });
+  save("shaneOptState",optState);renderOptions();
+  toast(n?`Autonomy Bundle: ${n} added to your Shortlist. Zero bosses acquired.`:"Tick at least one box first.");
 }
 let toastTimer;
 function toast(msg){
