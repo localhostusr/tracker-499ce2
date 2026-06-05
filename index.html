@@ -108,6 +108,66 @@
   .pill{background:#f0f2f2;color:#0f1111;border:1px solid #d5d9d9;border-radius:3px;}
   code{background:#f0f2f2;color:#0f1111;border-radius:3px;}
   tbody tr:nth-child(even){background:#fbfbfb;}
+
+  /* ---- ecommerce parody bells & whistles ---- */
+  .azbar{background:#131921;display:flex;align-items:center;gap:14px;padding:7px 20px;color:#fff;flex-wrap:wrap;border-top:1px solid #3a4553;}
+  .azbar .loc{font-size:11px;line-height:1.15;color:#fff;white-space:nowrap;}
+  .azbar .loc b{font-size:13px;}
+  .azbar .srch{flex:1;min-width:220px;display:flex;align-items:stretch;border-radius:4px;overflow:hidden;border:2px solid transparent;}
+  .azbar .srch:focus-within{border-color:#febd69;}
+  .azbar .srchcat{flex:none;width:auto;border:none;background:#e6e6e6;color:#0f1111;font-size:12px;border-radius:0;}
+  .azbar #azsearch{flex:1;min-width:0;border:none;border-radius:0;font-size:14px;}
+  .azbar .srchbtn{flex:none;background:#febd69;border:none;color:#0f1111;font-size:16px;padding:0 15px;cursor:pointer;}
+  .azbar .srchbtn:hover{background:#f3a847;}
+  .azbar .acct{display:flex;gap:16px;align-items:center;}
+  .azbar .acctcol{font-size:13px;line-height:1.15;cursor:default;}
+  .azbar .acctcol span{display:block;color:#dcded0;font-size:11px;}
+  .azbar .cart{cursor:pointer;text-align:center;line-height:1.1;display:flex;align-items:baseline;gap:3px;}
+  .azbar .cart .cartemoji{font-size:18px;}
+  .azbar .cart #cartcount{color:#f08804;font-weight:700;font-size:15px;}
+  .azbar .cart b{font-size:13px;}
+  .stars{letter-spacing:1px;font-size:13px;white-space:nowrap;}
+  .stars .on{color:#de7921;}
+  .stars .off{color:#cfcfcf;}
+  .rating{font-size:12px;margin:3px 0;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+  .rating .rlink{color:#007185;}
+  .rating .rcount{color:#565959;}
+  .stock{color:#007600;font-size:12px;font-weight:700;margin:2px 0;}
+  .stock.low{color:#b12704;}
+  .pricebox{display:flex;flex-direction:column;}
+  .pricebox .listprice{color:#565959;text-decoration:line-through;font-size:11px;}
+  .pricebox .price{color:#b12704;font-weight:700;font-size:14px;}
+  .cta{display:flex;flex-direction:column;gap:5px;margin-top:7px;max-width:150px;}
+  .azbtn{border:1px solid #fcd200;border-radius:7px;font-size:12px;padding:6px 8px;cursor:pointer;font-family:inherit;font-weight:500;}
+  .azbtn.cart{background:#ffd814;}.azbtn.cart:hover{background:#f7ca00;}
+  .azbtn.buy{background:#ffa41c;border-color:#ff8f00;}.azbtn.buy:hover{background:#fa8900;}
+  .choicebadge{display:inline-block;background:#232f3e;color:#fff;font-size:11px;font-weight:700;padding:2px 7px;border-radius:3px;margin-bottom:4px;}
+  .choicebadge .c{color:#46c6e8;}
+  .bestbadge{display:inline-block;background:#cc6600;color:#fff;font-size:11px;font-weight:700;padding:2px 7px;border-radius:3px;margin-bottom:4px;}
+  .fbt{display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+  .fbt .item{font-size:13px;}
+  .review{border-top:1px solid #e7e7e7;padding:10px 0;}
+  .review .who{font-size:13px;font-weight:700;}
+  .review .ttl{font-weight:700;font-size:13px;}
+  .review .body{font-size:13px;color:#0f1111;margin-top:3px;}
+  .review .vp{color:#c45500;font-size:12px;font-weight:700;margin:2px 0;}
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:#232f3e;color:#fff;padding:12px 18px;border-radius:6px;font-size:14px;box-shadow:0 6px 24px rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:.3s;z-index:200;max-width:90%;border-left:4px solid #febd69;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  /* ---- quick-links ribbon, resources, versions ---- */
+  .ribbon{display:flex;gap:8px;align-items:center;overflow-x:auto;background:#37475a;padding:7px 18px;border-bottom:1px solid #4a5a6e;white-space:nowrap;}
+  .ribbon .riblabel{color:#cfd4d4;font-size:12px;font-weight:700;margin-right:4px;flex:none;}
+  .ribbon a{flex:none;color:#fff;font-size:12.5px;text-decoration:none;padding:4px 10px;border-radius:3px;background:rgba(255,255,255,.08);}
+  .ribbon a:hover{background:#febd69;color:#0f1111;}
+  .ribbon a.more{background:transparent;color:#ffd814;font-weight:700;}
+  ul.links{list-style:none;margin:0;padding:0;}
+  ul.links li{padding:6px 0;border-top:1px solid #eee;font-size:13px;color:#565959;}
+  ul.links li:first-child{border-top:none;}
+  ul.links a{color:#007185;text-decoration:none;font-weight:600;}
+  ul.links a:hover{color:#c45500;text-decoration:underline;}
+  .vrow{display:flex;justify-content:space-between;align-items:center;gap:12px;border-top:1px solid #e7e7e7;padding:10px 0;}
+  .vrow:first-child{border-top:none;}
+  .vbtns{display:flex;gap:8px;flex:none;}
 </style>
 </head>
 <body>
@@ -116,7 +176,34 @@
   <p>From idea stage today to a targeted set of applications and interviews. Floor income $110k now, target $150k and up long term. San Diego market.</p>
 </header>
 
+<div class="azbar">
+  <div class="loc">Deliver to Shane<br><b>&#9662; San Diego 92101</b></div>
+  <div class="srch">
+    <select class="srchcat"><option>All Lanes</option><option>Lane 1</option><option>Lane 2</option><option>Lane 3</option></select>
+    <input id="azsearch" placeholder="Search careers with a real comp plan..." onkeydown="if(event.key==='Enter')doSearch()">
+    <button class="srchbtn" onclick="doSearch()">&#128269;</button>
+  </div>
+  <div class="acct">
+    <div class="acctcol"><span>Hello, Shane</span><b>Account &amp; Lists &#9662;</b></div>
+    <div class="acctcol"><span>Returns</span><b>&amp; Offers</b></div>
+    <div class="cart" onclick="show('options')" title="Your shortlist"><span class="cartemoji">&#128722;</span><span id="cartcount">0</span><b>Shortlist</b></div>
+  </div>
+</div>
+
 <nav class="tabs" id="nav"></nav>
+
+<div class="ribbon">
+  <span class="riblabel">Quick links</span>
+  <a href="https://www.linkedin.com/jobs/" target="_blank" rel="noopener">LinkedIn Jobs</a>
+  <a href="https://www.indeed.com/" target="_blank" rel="noopener">Indeed</a>
+  <a href="https://www.glassdoor.com/" target="_blank" rel="noopener">Glassdoor</a>
+  <a href="https://www.repvue.com/" target="_blank" rel="noopener">RepVue</a>
+  <a href="https://www.ziprecruiter.com/" target="_blank" rel="noopener">ZipRecruiter</a>
+  <a href="https://edd.ca.gov/" target="_blank" rel="noopener">CA Unemployment</a>
+  <a href="https://www.coveredca.com/" target="_blank" rel="noopener">Covered CA</a>
+  <a href="https://academy.hubspot.com/" target="_blank" rel="noopener">Free Sales Certs</a>
+  <a href="#" class="more" onclick="show('resources');return false;">All resources &rsaquo;</a>
+</div>
 <main>
 
 <!-- ========================= START HERE ========================= -->
@@ -186,6 +273,23 @@
       </tr></thead>
       <tbody></tbody>
     </table>
+  </div>
+
+  <div class="card" style="margin-top:18px;">
+    <h3>Frequently pursued together</h3>
+    <div class="fbt">
+      <label class="item"><input type="checkbox" checked> Payments (W2)</label><span>+</span>
+      <label class="item"><input type="checkbox" checked> Commercial Lines Producer</label><span>+</span>
+      <label class="item"><input type="checkbox" checked> Independent CRE</label>
+      <button class="btn" style="margin-left:auto;" onclick="toast('The Autonomy Bundle added. You now own three books and zero bosses.')">Add all 3 to Shortlist</button>
+    </div>
+    <p class="savehint" style="margin-top:8px;">Total estimated value: one financially free Autonomy-Seeker. Free 2-day hireability if you apply within 3 hrs 14 mins.</p>
+  </div>
+
+  <div class="card">
+    <h3>Customer reviews</h3>
+    <div class="savehint" style="margin-bottom:6px;">4.7 out of 5 &middot; 9,418 global career-changer ratings &middot; most helpful first</div>
+    <div id="reviews"></div>
   </div>
 </section>
 
@@ -381,14 +485,97 @@
   </div>
 </section>
 
+<!-- ========================= RESOURCES ========================= -->
+<section class="tab" id="resources">
+  <h2 class="section-title">Resources</h2>
+  <p class="sub">The sites Shane will live on during the hunt. One click from here. The Quick Links ribbon up top holds the top eight.</p>
+  <div class="grid2">
+    <div class="card">
+      <h3>Job boards &amp; search</h3>
+      <ul class="links">
+        <li><a href="https://www.linkedin.com/jobs/" target="_blank" rel="noopener">LinkedIn Jobs</a> &middot; the main one, and where the networking happens</li>
+        <li><a href="https://www.indeed.com/" target="_blank" rel="noopener">Indeed</a></li>
+        <li><a href="https://www.ziprecruiter.com/" target="_blank" rel="noopener">ZipRecruiter</a></li>
+        <li><a href="https://www.glassdoor.com/" target="_blank" rel="noopener">Glassdoor</a> &middot; jobs plus reviews and salaries</li>
+        <li><a href="https://wellfound.com/" target="_blank" rel="noopener">Wellfound</a> &middot; startup roles</li>
+        <li><a href="https://builtin.com/" target="_blank" rel="noopener">Built In</a> &middot; tech and SaaS by city</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Recommended for sales professionals</h3>
+      <ul class="links">
+        <li><a href="https://www.repvue.com/" target="_blank" rel="noopener">RepVue</a> &middot; rates sales orgs by real OTE, quota attainment, and culture. Run the 2 killer questions here before any call.</li>
+        <li><a href="https://bravado.co/" target="_blank" rel="noopener">Bravado</a> &middot; sales community and job board</li>
+        <li><a href="https://www.salesjobs.com/" target="_blank" rel="noopener">SalesJobs.com</a></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Compare before you buy: company &amp; comp research</h3>
+      <ul class="links">
+        <li><a href="https://www.repvue.com/" target="_blank" rel="noopener">RepVue</a> &middot; OTE and quota attainment by company</li>
+        <li><a href="https://www.glassdoor.com/Reviews/index.htm" target="_blank" rel="noopener">Glassdoor reviews &amp; salaries</a></li>
+        <li><a href="https://www.levels.fyi/" target="_blank" rel="noopener">Levels.fyi</a></li>
+        <li><a href="https://www.comparably.com/" target="_blank" rel="noopener">Comparably</a></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Income while you search (California)</h3>
+      <ul class="links">
+        <li><a href="https://edd.ca.gov/" target="_blank" rel="noopener">California EDD</a> &middot; unemployment insurance</li>
+        <li><a href="https://www.caljobs.ca.gov/" target="_blank" rel="noopener">CalJOBS</a> &middot; state job services</li>
+        <li><a href="https://www.coveredca.com/" target="_blank" rel="noopener">Covered California</a> &middot; health coverage between jobs (job loss is a qualifying event)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Licensing for the center lanes</h3>
+      <ul class="links">
+        <li><a href="https://www.insurance.ca.gov/01-consumers/105-type/2-licensing/" target="_blank" rel="noopener">CA Dept of Insurance</a> &middot; producer license (insurance lane)</li>
+        <li><a href="https://www.dre.ca.gov/" target="_blank" rel="noopener">CA DRE</a> &middot; real estate license</li>
+      </ul>
+      <p class="savehint">Payments / merchant services needs no license. Insurance and real estate do.</p>
+    </div>
+    <div class="card">
+      <h3>Free upskilling &amp; credibility</h3>
+      <ul class="links">
+        <li><a href="https://academy.hubspot.com/" target="_blank" rel="noopener">HubSpot Academy</a> &middot; free sales certifications</li>
+        <li><a href="https://www.linkedin.com/learning/" target="_blank" rel="noopener">LinkedIn Learning</a></li>
+        <li><a href="https://trailhead.salesforce.com/" target="_blank" rel="noopener">Salesforce Trailhead</a> &middot; free, great for the SaaS lane</li>
+        <li><a href="https://grow.google/certificates/" target="_blank" rel="noopener">Google Career Certificates</a></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Networking &amp; outreach tools</h3>
+      <ul class="links">
+        <li><a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a> &middot; for the informational interviews</li>
+        <li><a href="https://calendly.com/" target="_blank" rel="noopener">Calendly</a> &middot; let people book time with you</li>
+        <li><a href="https://hunter.io/" target="_blank" rel="noopener">Hunter.io</a> &middot; find email addresses for outreach</li>
+      </ul>
+    </div>
+  </div>
+  <div class="note">Workflow: when a company looks interesting, check it on RepVue and Glassdoor first, then bring the 2 killer questions to the informational interview, then log it in the Info Interviews tab.</div>
+</section>
+
+<!-- ========================= SAVED VERSIONS ========================= -->
+<section class="tab" id="versions">
+  <h2 class="section-title">Saved Versions</h2>
+  <p class="sub">Save restore points as you go, roll back or forward anytime, and keep a portable backup.</p>
+  <div class="toolbar">
+    <button class="btn" onclick="saveVersion()">Save current version</button>
+    <button class="btn ghost" onclick="exportBackup()">Download backup file</button>
+    <label class="btn ghost" style="cursor:pointer;">Import backup<input type="file" accept="application/json" style="display:none" onchange="importBackup(this)"></label>
+  </div>
+  <div class="note">Your typed-in data lives in this browser only. Saving a version here gives you a restore point if you change your mind. Downloading a backup file is how you keep it safe across devices or email a copy to yourself. Restoring auto-saves your current state first, so you can always go forward again.</div>
+  <div class="card"><h3>Your saved versions</h3><div id="versionList"></div></div>
+</section>
+
 </main>
 
 <script>
 /* ---------------- Tab data ---------------- */
 const TABS=[
-  ["start","Start Here"],["options","Options Menu"],["jargon","Jargon Decoder"],
+  ["start","Start Here"],["resources","Resources"],["options","Options Menu"],["jargon","Jargon Decoder"],
   ["interviews","Info Interviews"],["scorecard","Decision Scorecard"],
-  ["applications","Applications"],["income","Income Reference"],["journey","The Journey"]
+  ["applications","Applications"],["income","Income Reference"],["journey","The Journey"],["versions","Saved Versions"]
 ];
 const nav=document.getElementById("nav");
 TABS.forEach(([id,label],i)=>{
@@ -424,20 +611,53 @@ const OPTIONS=[
 ];
 const STATUS_OPTS=["Not started","Researching","Info interview booked","Applying","Applied","Interviewing","Passed / Out"];
 const optState=load("shaneOptState",{});
+const OPT_OVERRIDE={
+  l2pay:{badge:"choice",stock:"Only 2 territories left in San Diego, apply soon",low:true},
+  l2cl:{badge:"best"},
+  l2med:{badge:"best",stock:"In high demand this quarter"},
+  l3ins:{badge:"choice"},
+  l1dir:{stock:"Limited openings"}
+};
+function optMeta(id){
+  let h=0;for(let i=0;i<id.length;i++)h=(h*31+id.charCodeAt(i))>>>0;
+  const rating=4.2+(h%7)/10;
+  const reviews=312+(h%8800);
+  const o=OPT_OVERRIDE[id]||{};
+  return {rating,reviews,badge:o.badge||"",stock:o.stock||"",low:!!o.low};
+}
+function starsHtml(r){const f=Math.round(r);let h='<span class="stars">';for(let i=0;i<5;i++)h+=`<span class="${i<f?'on':'off'}">&#9733;</span>`;return h+'</span>';}
+function badgeHtml(b){
+  if(b==="choice")return '<span class="choicebadge"><span class="c">&#10022;</span> The Hunt\'s Choice</span>';
+  if(b==="best")return '<span class="bestbadge">#1 Best Seller in Careers</span>';
+  return "";
+}
 function renderOptions(){
   const tb=document.querySelector("#optionsTable tbody");tb.innerHTML="";
   OPTIONS.forEach(o=>{
     const st=optState[o.id]||{interest:"",status:"",notes:""};
+    const m=optMeta(o.id);
     const tr=document.createElement("tr");
+    tr.dataset.lane=o.lane;
+    tr.dataset.search=(o.role+" "+o.what+" "+o.emp+" "+o.search).toLowerCase();
     tr.innerHTML=`
       <td><span class="badge b${o.lane}">LANE ${o.lane}</span></td>
-      <td><b>${o.role}</b><div class="savehint" style="margin-top:4px;">Search: <code>${o.search}</code></div></td>
+      <td>
+        ${badgeHtml(m.badge)}
+        <b>${o.role}</b>
+        <div class="rating">${starsHtml(m.rating)} <a class="rlink">${m.rating.toFixed(1)}</a> <span class="rcount">(${m.reviews.toLocaleString()})</span></div>
+        ${m.stock?`<div class="stock ${m.low?'low':''}">${m.stock}</div>`:""}
+        <div class="savehint" style="margin-top:4px;">Search: <code>${o.search}</code></div>
+        <div class="cta">
+          <button class="azbtn cart" data-id="${o.id}">Add to Shortlist</button>
+          <button class="azbtn buy" data-id="${o.id}">Apply now</button>
+        </div>
+      </td>
       <td>${o.what}</td>
       <td>${o.emp}</td>
       <td class="small">${o.search}</td>
       <td class="small">${o.res}</td>
       <td class="small">${o.own}</td>
-      <td class="small">${o.floor}</td>
+      <td class="small"><div class="pricebox"><span class="listprice">Beer pay $45k</span><span class="price">${o.floor}</span></div></td>
       <td class="small">${o.pot}</td>
       <td class="small"><select data-id="${o.id}" data-f="interest">${["","1","2","3","4","5"].map(v=>`<option ${st.interest===v?"selected":""}>${v}</option>`).join("")}</select></td>
       <td class="small"><select data-id="${o.id}" data-f="status">${["",...STATUS_OPTS].map(v=>`<option ${st.status===v?"selected":""}>${v}</option>`).join("")}</select></td>
@@ -447,13 +667,55 @@ function renderOptions(){
   tb.querySelectorAll("select,textarea").forEach(el=>{
     el.addEventListener("change",saveOpt);el.addEventListener("input",saveOpt);
   });
+  tb.querySelectorAll(".azbtn.cart").forEach(b=>b.onclick=()=>{
+    const id=b.dataset.id;optState[id]=optState[id]||{interest:"",status:"",notes:""};
+    optState[id].interest="5";save("shaneOptState",optState);renderOptions();
+    toast("Added to Shortlist. Excellent taste.");
+  });
+  tb.querySelectorAll(".azbtn.buy").forEach(b=>b.onclick=()=>{
+    toast("Ships from: Reality. Sold by: Your Future Self. Estimated onboarding: as soon as you close this tab and actually apply.");
+  });
+  updateCart();
 }
 function saveOpt(e){
   const id=e.target.dataset.id,f=e.target.dataset.f;
   optState[id]=optState[id]||{interest:"",status:"",notes:""};
-  optState[id][f]=e.target.value;save("shaneOptState",optState);
+  optState[id][f]=e.target.value;save("shaneOptState",optState);updateCart();
+}
+function updateCart(){
+  const n=Object.values(optState).filter(s=>s&&(s.interest==="4"||s.interest==="5")).length;
+  const el=document.getElementById("cartcount");if(el)el.textContent=n;
+}
+let toastTimer;
+function toast(msg){
+  let t=document.getElementById("toast");
+  if(!t){t=document.createElement("div");t.id="toast";t.className="toast";document.body.appendChild(t);}
+  t.textContent=msg;t.classList.add("show");
+  clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),4600);
+}
+function doSearch(){
+  const q=(document.getElementById("azsearch").value||"").toLowerCase().trim();
+  const cat=(document.querySelector(".srchcat").value||"All Lanes").toLowerCase();
+  show("options");
+  document.querySelectorAll("#optionsTable tbody tr").forEach(tr=>{
+    const okCat=cat==="all lanes"||("lane "+tr.dataset.lane)===cat;
+    const okQ=!q||tr.dataset.search.includes(q);
+    tr.style.display=(okCat&&okQ)?"":"none";
+  });
+  toast(q?`Showing results for "${q}"`:"Showing all careers that pay actual money.");
+}
+const REVIEWS=[
+  {who:"Verified Career Changer",ttl:"Finally, income that shows up while I sleep",stars:5,body:"Switched out of beer and into residuals. My book of business is now the only thing in my house that appreciates. Would leave the brewery again."},
+  {who:"Shopped for Medical Device",ttl:"Great pay, one small adjustment",stars:4,body:"Docked one star because I now have to wear real pants into an operating room. Otherwise the commission cured my flakiness allergy."},
+  {who:"Anonymous Whale, San Diego 92101",ttl:"The dual-income hack is real",stars:5,body:"Partner makes 110k, I build the book on the side, we bought the house. The giant eagle watching me the whole time really sealed it."},
+  {who:"One-Star Stan",ttl:"Bought the beer career by mistake in 2016",stars:1,body:"Do NOT recommend. Eleven years, zero residuals, lots of free pours. Returning the entire industry. Refund pending since 2022."}
+];
+function renderReviews(){
+  const el=document.getElementById("reviews");if(!el)return;
+  el.innerHTML=REVIEWS.map(r=>`<div class="review"><div class="who">${r.who}</div>${starsHtml(r.stars)} <span class="ttl">${r.ttl}</span><div class="vp">Verified Purchase</div><div class="body">${r.body}</div></div>`).join("");
 }
 renderOptions();
+renderReviews();
 
 /* ---------------- Jargon ---------------- */
 const JARGON=[
@@ -574,6 +836,51 @@ function addRow(name){
   const blank={};cfg.cols.forEach(c=>blank[c.k]="");d.push(blank);save(cfg.key,d);renderTracker(name);
 }
 ["interviews","scorecard","applications"].forEach(renderTracker);
+
+/* ---------------- version history / backup ---------------- */
+const VKEYS=["shaneOptState","shaneInterviews","shaneScorecard","shaneApplications"];
+function snapshotData(){const d={};VKEYS.forEach(k=>d[k]=load(k,null));return d;}
+function applyData(d){VKEYS.forEach(k=>{if(d[k]===null||d[k]===undefined)localStorage.removeItem(k);else save(k,d[k]);});}
+function reloadState(){
+  for(const k in optState)delete optState[k];Object.assign(optState,load("shaneOptState",{}));
+  renderOptions();["interviews","scorecard","applications"].forEach(renderTracker);updateCart();
+}
+function saveVersion(){
+  const label=prompt("Name this saved version (e.g. 'Before I narrowed to 3 lanes'):","");
+  if(label===null)return;
+  const versions=load("shaneVersions",[]);
+  versions.unshift({id:"v"+(new Date().getTime()),label:label||"Untitled version",time:new Date().toLocaleString(),data:snapshotData()});
+  save("shaneVersions",versions.slice(0,50));renderVersions();
+  toast("Version saved. You can roll back to this anytime.");
+}
+function restoreVersion(id){
+  const v=load("shaneVersions",[]).find(x=>x.id===id);if(!v)return;
+  if(!confirm("Restore '"+v.label+"'? Your current data is auto-saved first, so you can go forward again."))return;
+  const vs=load("shaneVersions",[]);
+  vs.unshift({id:"v"+(new Date().getTime()),label:"Auto-saved before restoring '"+v.label+"'",time:new Date().toLocaleString(),data:snapshotData()});
+  save("shaneVersions",vs.slice(0,50));
+  applyData(v.data);reloadState();renderVersions();toast("Restored: "+v.label);
+}
+function deleteVersion(id){save("shaneVersions",load("shaneVersions",[]).filter(x=>x.id!==id));renderVersions();}
+function renderVersions(){
+  const el=document.getElementById("versionList");if(!el)return;
+  const versions=load("shaneVersions",[]);
+  if(!versions.length){el.innerHTML='<p class="savehint">No saved versions yet. Hit "Save current version" to create your first restore point.</p>';return;}
+  el.innerHTML=versions.map(v=>`<div class="vrow"><div><b>${v.label}</b><div class="savehint">${v.time}</div></div><div class="vbtns"><button class="btn ghost" onclick="restoreVersion('${v.id}')">Restore</button><button class="btn del" onclick="deleteVersion('${v.id}')">Delete</button></div></div>`).join("");
+}
+function exportBackup(){
+  const payload={app:"Shane The Hunt tracker",exported:new Date().toISOString(),data:snapshotData(),versions:load("shaneVersions",[])};
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="shane-the-hunt-backup.json";a.click();
+  toast("Backup downloaded. Keep it safe, or email it to yourself.");
+}
+function importBackup(input){
+  const file=input.files[0];if(!file)return;
+  const r=new FileReader();
+  r.onload=()=>{try{const j=JSON.parse(r.result);if(j.data)applyData(j.data);if(j.versions)save("shaneVersions",j.versions);reloadState();renderVersions();toast("Backup imported.");}catch(e){toast("Could not read that backup file.");}input.value="";};
+  r.readAsText(file);
+}
+renderVersions();
 
 /* ---------------- storage helpers ---------------- */
 function load(k,def){try{const v=localStorage.getItem(k);return v?JSON.parse(v):def;}catch(e){return def;}}
