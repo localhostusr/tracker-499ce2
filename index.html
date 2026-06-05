@@ -67,9 +67,9 @@
   .kpi .box b{font-size:18px;}
   @media print{nav.tabs{display:none;}section.tab{display:block!important;}header.top{-webkit-print-color-adjust:exact;}}
 
-  /* ===== Amazon-style restyle + full-page bald eagle watermark ===== */
+  /* ===== Amazon-style restyle (squared + flat) + bald eagle watermark ===== */
   :root{
-    --slate:#131921; --slate2:#232f3e; --bg:#eaeded; --card:rgba(255,255,255,.95);
+    --slate:#131921; --slate2:#232f3e; --bg:#eaeded; --card:rgba(255,255,255,.96);
     --line:#d5d9d9; --muted:#565959; --accent:#007185;
     --lane1:#232f3e; --lane2:#007185; --lane3:#c45500;
     --display:"Amazon Ember","Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -78,35 +78,36 @@
   body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
     background:url("eagle-watermark.jpg") center 16% / cover no-repeat;opacity:.07;}
   h1,h2,h3,h4,nav.tabs button,.btn,.badge,header.top h1,.section-title{font-family:var(--display);letter-spacing:0;}
-  header.top{background:#131921;box-shadow:none;border-bottom:3px solid #232f3e;}
-  header.top h1{font-size:24px;text-transform:none;color:#fff;font-weight:700;}
+  header.top{background:#131921;box-shadow:none;border-bottom:none;}
+  header.top h1{font-size:22px;text-transform:none;color:#fff;font-weight:700;}
   header.top p{color:#cfd4d4;}
   nav.tabs{background:#232f3e;}
-  nav.tabs button{color:#e6e6e6;}
+  nav.tabs button{color:#e6e6e6;border-radius:0;}
   nav.tabs button:hover{color:#fff;}
   nav.tabs button.active{border-bottom-color:#ff9900;background:rgba(255,255,255,.06);color:#fff;}
   .section-title{color:#0f1111;}
-  .card{border-radius:8px;border-color:#d5d9d9;box-shadow:0 1px 2px rgba(15,17,17,.06);}
+  .card{border-radius:3px;border-color:#d5d9d9;box-shadow:none;}
   .card h3{color:#0f1111;}
-  .btn{border-radius:8px;font-weight:500;background:#ffd814;color:#0f1111;box-shadow:none;border:1px solid #fcd200;}
+  .btn{border-radius:3px;font-weight:400;background:#ffd814;color:#0f1111;box-shadow:none;border:1px solid #fcd200;}
   .btn:hover{filter:none;transform:none;background:#f7ca00;}
-  .btn.ghost{background:#fff;color:#0f1111;box-shadow:0 2px 5px rgba(15,17,17,.08);border:1px solid #d5d9d9;}
-  .btn.del{background:#fff;color:#b12704;border:1px solid #d5d9d9;box-shadow:none;}
-  .badge{border-radius:4px;}
-  th{background:#232f3e;}
-  .note{background:#fff;border:1px solid #d5d9d9;border-left:4px solid #ff9900;color:#0f1111;border-radius:8px;}
-  .killer{background:#fef8f0;border:1px solid #ffd8a8;border-radius:8px;}
+  .btn.ghost{background:#fff;color:#0f1111;box-shadow:none;border:1px solid #d5d9d9;border-radius:3px;}
+  .btn.del{background:#fff;color:#b12704;border:1px solid #d5d9d9;box-shadow:none;border-radius:3px;}
+  .badge{border-radius:3px;}
+  th{background:#f0f2f2;color:#0f1111;border-bottom:2px solid #d5d9d9;}
+  td{border-top-color:#e7e7e7;}
+  .note{background:#fff;border:1px solid #d5d9d9;border-left:4px solid #ff9900;color:#0f1111;border-radius:3px;}
+  .killer{background:#fef8f0;border:1px solid #ffd8a8;border-radius:3px;}
   .killer b{color:#c45500;}
-  .decision{background:#f7fafa;border-left-color:#007185;border-radius:0 8px 8px 0;}
+  .decision{background:#f7fafa;border:1px solid #e3e6e6;border-left:4px solid #007185;border-radius:0 3px 3px 0;}
   .decision b{color:#007185;}
-  .step .num{background:#ff9900;color:#0f1111;}
-  .kpi .box{border-radius:8px;background:#fff;border-color:#d5d9d9;}
-  input,select,textarea{border-radius:8px;border-color:#888c8c;background:#fff;}
-  input:focus,select:focus,textarea:focus{outline:none;border-color:#007185;box-shadow:0 0 0 3px #c8f3fa;}
-  .scroll{border-radius:8px;border-color:#d5d9d9;}
-  .pill{background:#f0f2f2;color:#0f1111;border:1px solid #d5d9d9;}
-  code{background:#f0f2f2;color:#0f1111;}
-  tbody tr:nth-child(even){background:#f7fafa;}
+  .step .num{background:#ff9900;color:#0f1111;border-radius:3px;}
+  .kpi .box{border-radius:3px;background:#fff;border-color:#d5d9d9;}
+  input,select,textarea{border-radius:3px;border-color:#888c8c;background:#fff;}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:#e77600;box-shadow:0 0 3px 2px rgba(228,121,17,.5);}
+  .scroll{border-radius:3px;border-color:#d5d9d9;}
+  .pill{background:#f0f2f2;color:#0f1111;border:1px solid #d5d9d9;border-radius:3px;}
+  code{background:#f0f2f2;color:#0f1111;border-radius:3px;}
+  tbody tr:nth-child(even){background:#fbfbfb;}
 </style>
 </head>
 <body>
