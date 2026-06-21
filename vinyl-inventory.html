@@ -144,6 +144,7 @@
     <button id="faves" class="needlebtn alt">&#9733; Faves</button>
     <div class="toggle"><button id="vGallery" class="on">Sleeves</button><button id="vTable">List</button><button id="vStats">Stats</button></div>
     <button id="needle" class="needlebtn">&#127922; Drop the needle</button>
+    <button id="expCSV" class="needlebtn alt">&#8681; CSV</button><button id="expJSON" class="needlebtn alt">&#8681; JSON</button>
   </div>
   <div id="gallery" class="gallery"></div>
   <table id="tableWrap" class="hidden"><thead><tr><th></th><th data-k="artist">Artist</th><th data-k="title">Title</th><th data-k="year">Year</th><th data-k="genre">Genre</th><th data-k="status">Status</th></tr></thead><tbody id="rows"></tbody></table>
@@ -368,6 +369,12 @@ document.getElementById('vGallery').addEventListener('click',()=>setView('galler
 document.getElementById('vTable').addEventListener('click',()=>setView('table'));
 document.getElementById('vStats').addEventListener('click',()=>setView('stats'));
 document.getElementById('needle').addEventListener('click',dropNeedle);
+function expRows(){return RECORDS.map((r,i)=>({artist:r.artist,title:r.title,year:r.year||'',genre:r.genre,status:r.status,condition:r.condition||'',favorite:FAVS[i]?'yes':'',value:(VALUES[i]!=null?VALUES[i]:''),note:r.note||''}));}
+function dl(name,text,type){const b=new Blob([text],{type:type});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);}
+function expCSV(){const rows=expRows(),cols=Object.keys(rows[0]);const qq=v=>{v=String(v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;};dl('wax-stacks.csv',[cols.join(',')].concat(rows.map(r=>cols.map(c=>qq(r[c])).join(','))).join('\n'),'text/csv;charset=utf-8');}
+function expJSON(){dl('wax-stacks.json',JSON.stringify(expRows(),null,2),'application/json');}
+document.getElementById('expCSV').addEventListener('click',expCSV);
+document.getElementById('expJSON').addEventListener('click',expJSON);
 document.getElementById('faves').addEventListener('click',function(){favesOnly=!favesOnly;this.classList.toggle('on',favesOnly);render();});
 stats();render();hydrate();
 </script></body></html>
