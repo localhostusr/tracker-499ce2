@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Vinyl Inventory — WIP</title>
+<style>
+  :root{
+    --bg:#11131a; --panel:#1a1d27; --panel2:#222634; --line:#2e3344;
+    --ink:#e8eaf0; --dim:#9aa0b2; --accent:#e0a13a; --accent2:#3a86ff;
+    --ok:#3fb950; --warn:#d29922; --bad:#f85149;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  header{
+    padding:22px 20px 16px; border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,#191c26,#14161e);
+  }
+  h1{margin:0 0 4px; font-size:22px; letter-spacing:.3px}
+  h1 .wip{
+    font-size:11px; vertical-align:middle; margin-left:8px; padding:3px 8px;
+    border:1px solid var(--accent); color:var(--accent); border-radius:999px;
+    letter-spacing:1px; text-transform:uppercase;
+  }
+  .sub{color:var(--dim); font-size:13px; margin-top:2px}
+  .wrap{max-width:1100px; margin:0 auto; padding:18px 20px 60px}
+
+  .stats{display:flex; flex-wrap:wrap; gap:10px; margin:0 0 18px}
+  .stat{
+    background:var(--panel); border:1px solid var(--line); border-radius:10px;
+    padding:10px 14px; min-width:110px;
+  }
+  .stat b{display:block; font-size:22px; line-height:1.1}
+  .stat span{color:var(--dim); font-size:12px; text-transform:uppercase; letter-spacing:.5px}
+
+  .controls{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:14px}
+  input[type=search]{
+    flex:1 1 240px; min-width:200px; background:var(--panel2); border:1px solid var(--line);
+    color:var(--ink); padding:10px 12px; border-radius:8px; font-size:14px;
+  }
+  input[type=search]::placeholder{color:var(--dim)}
+  select{
+    background:var(--panel2); border:1px solid var(--line); color:var(--ink);
+    padding:10px 12px; border-radius:8px; font-size:14px;
+  }
+
+  table{width:100%; border-collapse:collapse; font-size:14px}
+  thead th{
+    text-align:left; color:var(--dim); font-weight:600; font-size:12px;
+    text-transform:uppercase; letter-spacing:.5px; padding:8px 10px;
+    border-bottom:1px solid var(--line); position:sticky; top:0; background:var(--bg); cursor:pointer; user-select:none;
+  }
+  thead th:hover{color:var(--ink)}
+  tbody td{padding:10px; border-bottom:1px solid var(--panel2); vertical-align:top}
+  tbody tr:hover{background:var(--panel)}
+  .num{color:var(--dim); width:34px; text-align:right; font-variant-numeric:tabular-nums}
+  .artist{font-weight:600}
+  .title{color:var(--ink)}
+  .title .note{display:block; color:var(--dim); font-size:12px; font-style:italic; margin-top:2px}
+  .year, .genre{color:var(--dim); white-space:nowrap}
+
+  .pill{
+    display:inline-block; font-size:11px; padding:2px 8px; border-radius:999px;
+    border:1px solid var(--line); white-space:nowrap;
+  }
+  .s-identified{color:var(--ok); border-color:rgba(63,185,80,.4); background:rgba(63,185,80,.08)}
+  .s-tentative{color:var(--warn); border-color:rgba(210,153,34,.4); background:rgba(210,153,34,.08)}
+  .s-unidentified{color:var(--bad); border-color:rgba(248,81,73,.4); background:rgba(248,81,73,.08)}
+
+  .empty{color:var(--dim); padding:30px; text-align:center}
+  footer{color:var(--dim); font-size:12px; margin-top:26px; border-top:1px solid var(--line); padding-top:14px}
+  code{background:var(--panel2); padding:1px 5px; border-radius:4px; font-size:12px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap" style="padding-bottom:0">
+    <h1>Vinyl Inventory <span class="wip">Work in progress</span></h1>
+    <div class="sub">Pulled from 4 photos of the collection laid out on the floor. Statuses flag how sure we are of each ID — we'll refine and add features from here.</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="stats" id="stats"></div>
+
+  <div class="controls">
+    <input type="search" id="q" placeholder="Search artist, title, genre…" autocomplete="off">
+    <select id="status">
+      <option value="">All statuses</option>
+      <option value="identified">Identified</option>
+      <option value="tentative">Tentative</option>
+      <option value="unidentified">Unidentified</option>
+    </select>
+    <select id="genre"><option value="">All genres</option></select>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th data-k="i">#</th>
+        <th data-k="artist">Artist</th>
+        <th data-k="title">Title</th>
+        <th data-k="year">Year</th>
+        <th data-k="genre">Genre</th>
+        <th data-k="status">Status</th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <div class="empty" id="empty" hidden>No records match your filters.</div>
+
+  <footer>
+    <strong>Status key:</strong>
+    <span class="pill s-identified">Identified</span> cover &amp; text clearly read &nbsp;
+    <span class="pill s-tentative">Tentative</span> best guess, needs a closer look &nbsp;
+    <span class="pill s-unidentified">Unidentified</span> couldn't read it yet.
+    <br><br>
+    Data lives in the <code>RECORDS</code> array in this file. Next up: add cover thumbnails, condition/notes per record, owned-vs-wishlist, and CSV/JSON export.
+  </footer>
+</div>
+
+<script>
+/* ---- Data model (WIP) -------------------------------------------------
+   Each record: { artist, title, year, genre, status, note }
+   status: "identified" | "tentative" | "unidentified"
+   Extracted from photos IMG_3547-3550. Edit freely as we confirm IDs.
+--------------------------------------------------------------------- */
+const RECORDS = [
+  // --- Classic rock / rock ---
+  { artist:"The Beatles",         title:"Abbey Road",                                   year:1969, genre:"Rock",        status:"identified" },
+  { artist:"Pink Floyd",          title:"The Dark Side of the Moon",                    year:1973, genre:"Rock",        status:"identified" },
+  { artist:"Led Zeppelin",        title:"Led Zeppelin IV",                              year:1971, genre:"Rock",        status:"identified" },
+  { artist:"Led Zeppelin",        title:"Physical Graffiti",                            year:1975, genre:"Rock",        status:"identified" },
+  { artist:"David Bowie",         title:"The Rise and Fall of Ziggy Stardust…",         year:1972, genre:"Rock",        status:"identified" },
+  { artist:"The Rolling Stones",  title:"Tattoo You",                                   year:1981, genre:"Rock",        status:"identified" },
+  { artist:"Queen",               title:"A Night at the Opera",                         year:1975, genre:"Rock",        status:"identified" },
+  { artist:"Cream",               title:"Disraeli Gears",                               year:1967, genre:"Rock",        status:"identified" },
+  { artist:"The Doors",           title:"Greatest Hits",                                year:1980, genre:"Rock",        status:"tentative", note:"Red Jim Morrison portrait — confirm exact comp title." },
+  { artist:"Black Sabbath",       title:"Paranoid",                                     year:1970, genre:"Metal",       status:"identified" },
+  { artist:"AC/DC",               title:"Back in Black",                                year:1980, genre:"Rock",        status:"tentative", note:"Plain black w/ logo — confirm vs. Who Made Who." },
+  { artist:"Blind Faith",         title:"Blind Faith",                                  year:1969, genre:"Rock",        status:"identified" },
+  { artist:"Fleetwood Mac",       title:"The Dance",                                    year:1997, genre:"Rock",        status:"identified" },
+  { artist:"Eagles",              title:"The Very Best Of (Essential Collection)",      year:2003, genre:"Rock",        status:"tentative", note:"Compilation — confirm exact edition." },
+  { artist:"Bruce Springsteen",   title:"Born in the U.S.A.",                           year:1984, genre:"Rock",        status:"identified" },
+  { artist:"Duran Duran",         title:"Rio",                                          year:1982, genre:"New Wave",    status:"identified" },
+  { artist:"Peter Gabriel",       title:"So",                                           year:1986, genre:"Rock",        status:"tentative", note:"Sharp B&W portrait — reads as 'So'." },
+  { artist:"Mötley Crüe",         title:"Too Fast for Love",                            year:1981, genre:"Metal",       status:"identified" },
+  { artist:"Mötley Crüe",         title:"Greatest Hits",                                year:1998, genre:"Metal",       status:"tentative", note:"Red/pink cover — confirm vs. Generation Swine." },
+
+  // --- Singer-songwriter / folk / country ---
+  { artist:"Neil Young",          title:"Harvest",                                      year:1972, genre:"Folk Rock",   status:"identified" },
+  { artist:"Cat Stevens",         title:"Tea for the Tillerman",                        year:1970, genre:"Folk Rock",   status:"identified" },
+  { artist:"Cat Stevens",         title:"(framed winter-night painting sleeve)",        year:null, genre:"Folk Rock",   status:"tentative", note:"Grey sleeve, small framed naive painting — confirm album." },
+  { artist:"Leo Kottke",          title:"6- and 12-String Guitar",                      year:1969, genre:"Folk",        status:"identified" },
+  { artist:"Gordon Lightfoot",    title:"Summertime Dream",                             year:1976, genre:"Folk",        status:"tentative", note:"Lightfoot seated w/ guitar — confirm album." },
+  { artist:"Don McLean",          title:"American Pie",                                 year:1971, genre:"Folk Rock",   status:"identified" },
+  { artist:"Seals & Crofts",      title:"Greatest Hits",                                year:1975, genre:"Soft Rock",   status:"identified" },
+  { artist:"Dire Straits",        title:"Money for Nothing",                            year:1988, genre:"Rock",        status:"identified" },
+  { artist:"Eric Clapton",        title:"Behind the Sun",                               year:1985, genre:"Rock",        status:"identified" },
+
+  // --- Bob Seger cluster ---
+  { artist:"Bob Seger & The Silver Bullet Band", title:"'Live' Bullet",                year:1976, genre:"Rock",        status:"identified" },
+  { artist:"Bob Seger",           title:"Night Moves",                                  year:1976, genre:"Rock",        status:"identified" },
+  { artist:"Bob Seger & The Silver Bullet Band", title:"Nine Tonight",                 year:1981, genre:"Rock",        status:"tentative", note:"Dark live-concert sleeve — confirm." },
+
+  // --- Pop / R&B / soul ---
+  { artist:"Taylor Swift",        title:"Fearless",                                     year:2008, genre:"Pop",         status:"identified" },
+  { artist:"Whitney Houston",     title:"Whitney Houston",                              year:1985, genre:"Pop/R&B",     status:"identified" },
+  { artist:"Etta James",          title:"The Best of Etta James",                       year:null, genre:"Soul/Blues",  status:"identified" },
+
+  // --- Electronic / indie ---
+  { artist:"Daft Punk",           title:"Homework",                                     year:1997, genre:"Electronic",  status:"tentative", note:"Logo sleeve — likely Homework." },
+  { artist:"LCD Soundsystem",     title:"This Is Happening",                            year:2010, genre:"Electronic",  status:"tentative", note:"Text read as LCD Soundsystem — confirm title." },
+  { artist:"The Flaming Lips",    title:"Live 2003 (Yoshimi… Live at the Forum)",       year:2003, genre:"Indie Rock",  status:"identified" },
+
+  // --- Grunge ---
+  { artist:"Nirvana",             title:"From the Muddy Banks of the Wishkah",          year:1996, genre:"Grunge",      status:"identified" },
+
+  // --- Classical / crossover ---
+  { artist:"Frédéric Chopin",     title:"(piano collection)",                           year:null, genre:"Classical",   status:"tentative", note:"Confirm specific release/performer." },
+  { artist:"Neil Diamond",        title:"(blue stained-glass live sleeve)",             year:null, genre:"Pop",         status:"tentative", note:"Possible live album — confirm title." },
+
+  // --- Children's / family / soundtrack ---
+  { artist:"Peter Alsop",         title:"Uniforms",                                     year:null, genre:"Children's",  status:"identified" },
+  { artist:"Peter Alsop",         title:"Wha'd Ya Wanna Do?",                           year:null, genre:"Children's",  status:"identified" },
+  { artist:"Various / Soundtrack",title:"Frozen (Disney) — picture disc",               year:2013, genre:"Soundtrack",  status:"identified" },
+  { artist:"Vince Guaraldi / Peanuts", title:"Be My Valentine, Charlie Brown",          year:null, genre:"Soundtrack",  status:"identified" },
+  { artist:"The Global Stage Orchestra", title:"Star Wars: The Themes (Episodes I–VI)", year:null, genre:"Soundtrack",  status:"identified", note:"All compositions by John Williams." },
+  { artist:"Unknown",             title:"Children's Christmas album (Santa & animals)", year:null, genre:"Children's",  status:"unidentified" },
+
+  // --- Not yet identified ---
+  { artist:"Unknown",             title:'"1977" — purple sleeve w/ ornate symbols',     year:null, genre:"?",           status:"unidentified", note:"Possibly Ash – 1977." },
+  { artist:"Unknown",             title:"Folk-art sleeve, rows of striped figures",     year:null, genre:"?",           status:"unidentified" },
+  { artist:"Unknown",             title:"Classical fantasy scene (columns, urn, bathers)", year:null, genre:"?",        status:"unidentified" },
+  { artist:"Unknown",             title:"Running-horses watercolor (faded)",            year:null, genre:"?",           status:"unidentified" },
+  { artist:"Unknown",             title:"Golden Gate Bridge, sepia",                    year:null, genre:"?",           status:"unidentified" },
+  { artist:"Unknown",             title:"Black sleeve, white wings + orange flame",     year:null, genre:"?",           status:"unidentified", note:"Possibly Pearl Jam." },
+];
+
+/* ---- Render ---------------------------------------------------------- */
+const tbody = document.getElementById('rows');
+const qEl = document.getElementById('q');
+const statusEl = document.getElementById('status');
+const genreEl = document.getElementById('genre');
+const emptyEl = document.getElementById('empty');
+let sortKey = 'artist', sortDir = 1;
+
+// populate genre filter
+[...new Set(RECORDS.map(r=>r.genre))].sort().forEach(g=>{
+  const o=document.createElement('option'); o.value=g; o.textContent=g; genreEl.appendChild(o);
+});
+
+function stats(){
+  const by = s => RECORDS.filter(r=>r.status===s).length;
+  const el = document.getElementById('stats');
+  el.innerHTML = `
+    <div class="stat"><b>${RECORDS.length}</b><span>Records</span></div>
+    <div class="stat"><b>${new Set(RECORDS.map(r=>r.artist)).size}</b><span>Artists</span></div>
+    <div class="stat"><b style="color:var(--ok)">${by('identified')}</b><span>Identified</span></div>
+    <div class="stat"><b style="color:var(--warn)">${by('tentative')}</b><span>Tentative</span></div>
+    <div class="stat"><b style="color:var(--bad)">${by('unidentified')}</b><span>Unidentified</span></div>`;
+}
+
+function render(){
+  const q = qEl.value.trim().toLowerCase();
+  const fs = statusEl.value, fg = genreEl.value;
+  let rows = RECORDS.map((r,i)=>({...r,i})).filter(r=>{
+    if(fs && r.status!==fs) return false;
+    if(fg && r.genre!==fg) return false;
+    if(q && !(`${r.artist} ${r.title} ${r.genre}`.toLowerCase().includes(q))) return false;
+    return true;
+  });
+  rows.sort((a,b)=>{
+    let x=a[sortKey], y=b[sortKey];
+    if(sortKey==='year'){ x=x||0; y=y||0; return (x-y)*sortDir; }
+    return String(x).localeCompare(String(y))*sortDir;
+  });
+  tbody.innerHTML = rows.map(r=>`
+    <tr>
+      <td class="num">${r.i+1}</td>
+      <td class="artist">${esc(r.artist)}</td>
+      <td class="title">${esc(r.title)}${r.note?`<span class="note">${esc(r.note)}</span>`:''}</td>
+      <td class="year">${r.year||'—'}</td>
+      <td class="genre">${esc(r.genre)}</td>
+      <td><span class="pill s-${r.status}">${r.status}</span></td>
+    </tr>`).join('');
+  emptyEl.hidden = rows.length>0;
+}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+document.querySelectorAll('thead th').forEach(th=>{
+  th.addEventListener('click',()=>{
+    const k=th.dataset.k==='i'?'i':th.dataset.k;
+    if(k===sortKey) sortDir*=-1; else { sortKey=k; sortDir=1; }
+    render();
+  });
+});
+qEl.addEventListener('input',render);
+statusEl.addEventListener('change',render);
+genreEl.addEventListener('change',render);
+
+stats(); render();
+</script>
+</body>
+</html>
