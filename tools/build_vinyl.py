@@ -137,6 +137,8 @@ const RECORDS = __DATA__;
 const galleryEl=document.getElementById('gallery'),tableWrap=document.getElementById('tableWrap'),tbody=document.getElementById('rows'),statsView=document.getElementById('statsView');
 const qEl=document.getElementById('q'),statusEl=document.getElementById('status'),genreEl=document.getElementById('genre'),emptyEl=document.getElementById('empty');
 let sortKey='artist',sortDir=1,view='gallery',favesOnly=false;
+const CACHEV='2';
+if(localStorage.getItem('vinylCacheV')!==CACHEV){localStorage.removeItem('vinylArt');localStorage.removeItem('vinylIds');localStorage.setItem('vinylCacheV',CACHEV);}
 const ART=JSON.parse(localStorage.getItem('vinylArt')||'{}');
 const IDS=JSON.parse(localStorage.getItem('vinylIds')||'{}');
 const FAVS=JSON.parse(localStorage.getItem('vinylFavs')||'{}');
