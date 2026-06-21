@@ -251,8 +251,7 @@ function stats(){const by=s=>RECORDS.filter(r=>r.status===s).length;
     <div class="stat"><b>${RECORDS.length}</b><span>Records</span></div>
     <div class="stat"><b>${new Set(RECORDS.map(r=>r.artist)).size}</b><span>Artists</span></div>
     <div class="stat"><b>${Object.keys(FAVS).length}</b><span>Faves</span></div>
-    <div class="stat"><b>${money(totalValue())}</b><span>Est. value</span></div>
-    <div class="stat"><b>${by('tentative')+by('unidentified')}</b><span>To confirm</span></div>`;}
+    <div class="stat"><b>${money(totalValue())}</b><span>Est. value</span></div>`;}
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 function imgFor(r){const q=artQuery(r);const src=(q&&ART[q])?ART[q]:r.img;const dq=q?` data-q="${esc(q)}"`:'';const badge=((q&&!ART[q])||!q)?'<span class="src">photo</span>':'';return {src,dq,badge,q};}
 function filtered(){const q=qEl.value.trim().toLowerCase(),fs=statusEl.value,fg=genreEl.value;

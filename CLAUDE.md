@@ -1,66 +1,72 @@
-# CLAUDE.md, Shane "The Hunt" Career Tracker
+# CLAUDE.md — The Wax Stacks (Vinyl Inventory)
+
+> Branch-scoped doc. This file lives on `claude/vinyl-inventory-html-lx907a` and documents ONLY the vinyl
+> project. `main` has its own CLAUDE.md for a different project (the "Shane the Hunt" career tracker) and is
+> intentionally left untouched — only `vinyl-inventory.html` is ever cherry-picked from this branch to `main`.
 
 ## What this is
-A single self-contained HTML career-search tool built for Shane, a craft-beer sales and marketing pro
-(Advanced Cicerone) who is leaving the beverage industry. It guides him from idea stage to targeted
-applications and informational interviews. It is styled like an ecommerce storefront (Amazon aesthetic,
-no Amazon trademarks) with a full-page bald eagle watermark, and the parody elements all do real work.
+A single self-contained HTML inventory of a personal vinyl record collection, built from photos of the
+records laid out on the floor. Styled as a 1960s/70s record-store / radio-DJ "vibe" (sunburst header,
+spinning 45, Monoton/Pacifico/Oswald type, harvest-gold + burnt-orange palette). 57 records, all identified.
 
 ## Where things live
-- Live site: https://localhostusr.github.io/tracker-499ce2/
-- GitHub repo: localhostusr/tracker-499ce2 (public, hardened: obscure name + noindex meta + robots.txt disallow)
-- Local repo (deploy source): ~/Documents/shane-the-hunt-tracker  (index.html + eagle-watermark.jpg + robots.txt)
-- Working copy that gets edited: ~/Downloads/Shane The Hunt - Career Tracker.html
-- Release tag: v1-shane (validated build, link already sent to Shane)
+- Live site: https://localhostusr.github.io/tracker-499ce2/vinyl-inventory.html
+- Repo: localhostusr/tracker-499ce2 (public; noindex meta + robots.txt disallow inherited from the repo)
+- Dev branch: `claude/vinyl-inventory-html-lx907a` (all development happens here)
+- Deliverable: `vinyl-inventory.html` at repo root (self-contained: HTML + CSS + JS + base64 photo thumbs)
+- Build tooling (committed so it survives container resets — /tmp does NOT persist):
+  - `tools/build_vinyl.py` — generator; reads `tools/records.json`, writes `../vinyl-inventory.html`
+  - `tools/records.json` — the record data (source of truth for the catalog)
 
-## Deploy workflow (how to ship a change)
-1. Edit ~/Downloads/Shane The Hunt - Career Tracker.html
-2. Copy it over the repo: cp "~/Downloads/Shane The Hunt - Career Tracker.html" ~/Documents/shane-the-hunt-tracker/index.html
-3. gh auth switch --user localhostusr   (the CLI also has chriskohlPMP; localhostusr must be active to push)
-4. git -C ~/Documents/shane-the-hunt-tracker add -A && commit && push origin main
-5. GitHub Pages rebuilds in 1 to 3 min. The link Shane has never changes; it always serves the latest.
+## Build / deploy workflow
+1. Edit `tools/records.json` (data) and/or `tools/build_vinyl.py` (markup/CSS/JS).
+2. Rebuild: `cd tools && python3 build_vinyl.py`  (writes ../vinyl-inventory.html)
+3. Sanity check JS: extract the `<script>` and `node --check` it (no browser available in-env to click-test).
+4. Commit to this dev branch and push.
+5. Publish: cherry-pick `vinyl-inventory.html` onto `main` and push; GitHub Pages rebuilds in 1–3 min.
+   Owner controls publishing — only push to `main` when they say "publish" / "push live".
 
-## Architecture
-- One HTML file. Vanilla JS, no build step, no dependencies. CSS is base styles plus a later override
-  block ("Amazon-style restyle") that re-themes via CSS variables.
-- Tabs are data-driven from the TABS array; each entry maps to a section.tab by id. show(id) toggles them.
-- Persistence is localStorage, per browser, private to the user. Keys: shaneOptState, shaneInterviews,
-  shaneScorecard, shaneApplications, shaneVersions.
-- IMPORTANT: Shane's typed-in data never reaches GitHub. The document is versioned by git; his data is
-  versioned only by the in-app Saved Versions tab and the JSON backup export/import. Saving the web page
-  does NOT save his data.
+## Data model (each record in records.json)
+`{ artist, title, year, genre, status, note, condition, img, q }`
+- `status`: "identified" | "tentative" | "unidentified" (all 57 are currently "identified").
+- `img`: base64 data-URI of a photo crop — the instant placeholder + offline fallback.
+- `q`: optional iTunes search-query override. `q:""` = skip the lookup and keep the photo (used for rare
+  pressings not in the catalog: Chopin, Candy Man, Rudolph, Against the Wind, Star Wars themes).
+  If `q` is absent it is derived from artist+title.
+- `condition`: free text, shown as a ⚠ badge (e.g., Cat Stevens – Teaser and the Firecat: "Side 1 damaged").
 
-## Tabs
-Start Here, Resources, Options Menu, Jargon Decoder, Info Interviews, Decision Scorecard, Applications,
-Income Reference, The Journey, AI Edge, Saved Versions.
-- Options Menu: 16 options across 3 lanes, with editable Interest/Status/Notes, star ratings + badges
-  (parody, footnoted as for-fun), Add to Shortlist / Apply now, search filter, Frequently-pursued bundle.
-- The Journey tab is the canonical written record of the strategy and every decision.
-- Saved Versions: snapshot/restore + download/import JSON backup.
+## Cover art + audio (no network allowlist needed)
+The in-env sandbox can only reach GitHub (iTunes/MusicBrainz/etc. are blocked), so all catalog calls happen
+**client-side in the viewer's browser** via iTunes Search/Lookup **JSONP** (bypasses CORS + the egress
+allowlist). On load it fetches album artwork + collectionId per record; tracklists/previews are fetched
+lazily on flip/play. Results cache in localStorage. Everything degrades to the embedded photo if offline.
 
-## The strategy (so future edits stay consistent)
-Shane is an Autonomy-Seeker, not a Founder. Three lanes:
-- Lane 1 Employee (climb, own nothing) = no-regret fallback.
-- Lane 2 Center/Merge (payments, insurance, medical device) = enter W2, build a book, fork to independent.
-  This is the recommended entry. SaaS is Lane 1 only (no independent fork).
-- Lane 3 Autonomy now (independent agency, ISO agent, CRE, manufacturer rep).
-Key assumption: ideal household is two earners, partner near $110k, which makes every San Diego scenario
-viable without Shane needing $200k alone. So autonomy is a fit-and-upside choice, not a survival need.
-Targets: $110k floor now, $150k+ long term, San Diego market.
+## Features
+- Views: **Sleeves** (gallery), **List** (sortable table), **Stats** (by decade, by genre, most-collected,
+  crate facts incl. total value).
+- Hover a sleeve → the record slides out. Click → 3D flip to the tracklist.
+- **Jukebox:** 30-sec previews; bottom now-playing bar (spinning deck + tonearm, play/pause, ⏮/⏭, progress).
+- **Play-all queue:** ▶ / "Play all" queues an album's previews and auto-advances.
+- **Drop the needle:** features a random record and plays it.
+- **★ Favorites** (+ Faves filter) and **editable Est. value** per record, with a running collection total.
+- Top stat bar shows Records · Artists · Faves · Est. value (status counts were removed — all identified).
 
-## Testing
-Validated with Playwright (Chromium). Scripts were written to /tmp (ephemeral, may not persist):
-/tmp/test_tracker.py (functional), /tmp/validate.py (structural + mobile + harvest links), /tmp/shot.py
-(screenshots). Last run: functional 8/8, structural 8/8, mobile clean (0px overflow), all 24 links resolve
-or are bot-blocked (valid in a browser). If re-testing, serve the repo dir over http (localStorage on
-file:// is unreliable) and reinstall Playwright if needed.
+## Persistence (localStorage, per browser, never leaves the device)
+Keys: `vinylArt` (q→artwork URL), `vinylIds` (q→collectionId), `vinylFavs` (index→1),
+`vinylValues` (index→number). The catalog itself lives in the committed HTML / records.json.
 
-## Known caveats (already disclosed in the page)
-- Star ratings and "Best Seller" badges are parody, footnoted. Real ranking is in The Journey tab.
-- AI Edge tool prices are early-2026 ballparks; verify before subscribing. Categories age better than dollars.
-- Financial figures are directional San Diego 2026 estimates at ~7% mortgage rates. Condo all-in was
-  corrected to ~$4,850/mo (incl HOA); median house ~$6,300/mo.
+## Source photos (for re-identification, if needed)
+Floor shots IMG_3547–3550 (full collection) + straight-on shots IMG_3556–3564 (clusters/individual sleeves).
+Perspective in the floor shots makes precise cropping unreliable — prefer straight-on shots for new IDs.
+
+## Known caveats
+- Catalog art/audio need internet; first load is slower while it looks things up, then it's cached.
+- Cannot run a browser in-env: JS is syntax-checked only, not click-tested — verify interactions live.
+- Owner corrected a couple of guesses: the wild-horses sleeve IS *Against the Wind*; the stained-glass
+  sleeve is *Neil Diamond – Tap Root Manuscript*.
 
 ## Status
-Paused. Link sent to Shane. Everything committed and pushed; working tree clean; remote in sync.
-Open next step previously teed up: an income-curve timeline (year 1/3/5/7) for the center-lane path.
+Paused at owner's request. 57/57 identified. Dev branch has the latest build (retro restyle + jukebox +
+flip + stats + shuffle + favorites/queue/value + top-bar cleanup), committed & pushed.
+Live `main` may trail the newest features until the owner says to publish.
+Possible next ideas: side A/B grouping, CSV/JSON export, real price lookups (needs an egress allowlist).
