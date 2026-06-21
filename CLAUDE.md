@@ -49,6 +49,7 @@ lazily on flip/play. Results cache in localStorage. Everything degrades to the e
 - **Play-all queue:** ▶ / "Play all" queues an album's previews and auto-advances.
 - **Drop the needle:** features a random record and plays it.
 - **★ Favorites** (+ Faves filter) and **editable Est. value** per record, with a running collection total.
+- **Export:** CSV + JSON download of the whole catalog (incl. favorites + values).
 - Top stat bar shows Records · Artists · Faves · Est. value (status counts were removed — all identified).
 
 ## Persistence (localStorage, per browser, never leaves the device)
@@ -66,7 +67,12 @@ Perspective in the floor shots makes precise cropping unreliable — prefer stra
   sleeve is *Neil Diamond – Tap Root Manuscript*.
 
 ## Status
-Paused at owner's request. 57/57 identified. Dev branch has the latest build (retro restyle + jukebox +
-flip + stats + shuffle + favorites/queue/value + top-bar cleanup), committed & pushed.
-Live `main` may trail the newest features until the owner says to publish.
-Possible next ideas: side A/B grouping, CSV/JSON export, real price lookups (needs an egress allowlist).
+Resting at owner's request. 57/57 identified. Dev branch == `main` == fully published: retro restyle +
+jukebox + flip + stats + shuffle + favorites/queue/value + top-bar cleanup + cover-art audit fixes
+(ambiguous comps/alt-covers pinned to embedded photos) + localStorage cache-buster + CSV/JSON export.
+Everything committed, pushed, and live.
+Cover-art audit caveat: covers can't be visually verified in-env (no browser + iTunes is firewalled).
+The pinned-to-photo records are correct; catalog-fetched ones (unambiguous albums) should be fine — if any
+look wrong on the live page, pin them to photo too (set `q:""` in records.json).
+Possible next ideas (not started): side A/B grouping (needs per-side track data), JSON import/restore,
+real Discogs price lookups (needs an egress allowlist).
